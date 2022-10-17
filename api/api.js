@@ -16,6 +16,20 @@ export async function getAllTasks() {
     return records
 }
 
+export async function createTask(object) {
+    console.log(object)
+    await fetch("http://localhost:5000/record/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(object),
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+}
+
 /*export default async function deleteTask() {
     console.log("xd")
 }
