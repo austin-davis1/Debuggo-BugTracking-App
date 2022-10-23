@@ -1,21 +1,21 @@
-import Dashboard from '../SVGs/Dashboard.svg'
-import Projects from '../SVGs/Projects.svg'
-import User from '../SVGs/User.svg'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import ConstructionIcon from '@mui/icons-material/Construction'
+import PersonIcon from '@mui/icons-material/Person'
 
 export const sideData = [
     {
         title: "Dashboard",
         path:"/dashboard",
-        icon: <Dashboard/>
+        icon: <DashboardIcon/>
     },
     {
         title: "Projects",
         path: "/projects",
-        icon: <Projects/>
+        icon: <ConstructionIcon/>
     },
     {
         title: "User Profile",
         path: "/user_profile",
-        icon: <User/>
+        icon: <PersonIcon/>
     }
 ]
