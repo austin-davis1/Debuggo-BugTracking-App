@@ -1,5 +1,4 @@
 
-
 export async function getAllTasks() {
     const response = await fetch(`http://localhost:5000/record/`)
 
@@ -17,7 +16,6 @@ export async function getAllTasks() {
 }
 
 export async function createTask(object) {
-    console.log(object)
     await fetch("http://localhost:5000/record/add", {
         method: "POST",
         headers: {
@@ -30,14 +28,30 @@ export async function createTask(object) {
     })
 }
 
-/*export default async function deleteTask() {
-    console.log("xd")
+export default async function deleteTask(_id) {
+    await fetch(`http://localhost:5000/${_id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
 }
 
-export default async function createTask() {
-    console.log("xd")
+export async function editTask(_id, object) {
+    object.status = 1
+    await fetch(`http://localhost:5000/update/${_id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id,
+        body: JSON.stringify(object)
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
 }
-
-export default async function editTask() {
-    console.log("xd")
-}*/
