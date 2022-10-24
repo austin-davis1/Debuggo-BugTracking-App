@@ -55,3 +55,7 @@ export async function editTask(_id, object) {
         return
     })
 }
+
+export async function getTaskCount() {
+    
+}

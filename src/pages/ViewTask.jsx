@@ -48,21 +48,26 @@ export default function ViewTask() {
     }
 
     return (
-        <div className = "flex flex-col border-solid border-black border-2 mt-10 rounded-lg">\
-            {!edit
-            ?
-            <>
-                <h1 className="text-3xl p-7">{title}</h1>
-                <h2 className="text-2xl p-7">{desc}</h2>
-                <button className="text-2xl p-7" onClick={() => setEdit(true)}>Edit Task</button>
-            </>
-            :
-            <>
-                <input className="text-3xl p-7" onChange={(e) => setTitle(e.target.value)} placeholder={data.title}/>
-                <input className="text-2xl p-7" onChange={(e) => setDesc(e.target.value)} placeholder={data.description}/>
-                <button className="text-2xl p-7" onClick={() => submitEdit()}>Submit Edit</button>
-                <button className="text-2xl p-7" onClick={() => setEdit(false)}>Cancel</button>
-            </>}
-        </div>
+        <>
+            <Link to="/dashboard">
+                <button className="bg-white mt-5 w-32 h-12 hover:border-4 rounded-lg hover:border-black hover:bg-blue hover:text-white">Back</button>
+            </Link>
+            <div className = "flex flex-col border-solid border-black border-2 mt-10 rounded-lg">\
+                {!edit
+                ?
+                <>
+                    <h1 className="text-3xl p-7">{title}</h1>
+                    <h2 className="text-2xl p-7">{desc}</h2>
+                    <button className="text-2xl p-7 mb-5 hover:border-2 hover:border-black" onClick={() => setEdit(true)}>Edit Task</button>
+                </>
+                :
+                <>
+                    <input className="text-3xl p-7 " onChange={(e) => setTitle(e.target.value)} placeholder={data.title}/>
+                    <input className="text-2xl p-7" onChange={(e) => setDesc(e.target.value)} placeholder={data.description}/>
+                    <button className="text-2xl p-7 mb-5 hover:border-2 hover:border-black" onClick={() => submitEdit()}>Submit Edit</button>
+                    <button className="text-2xl p-7 mb-5 hover:border-2 hover:border-black" onClick={() => setEdit(false)}>Cancel</button>
+                </>}
+            </div>
+        </>
     )
 }

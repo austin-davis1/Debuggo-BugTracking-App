@@ -12,6 +12,8 @@ module.exports = {
       colors: {
         "black": "#1a1a1a",
         "gray": "#2a2a2a",
+        "off-white": "#e8e8e8",
+        "blue": "#2347fa",
         "hover-gray": "#4d4d4d",
         "purple": "#7846b9",
         "hover-purple": "#936bc7",

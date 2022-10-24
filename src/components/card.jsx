@@ -21,7 +21,7 @@ export default function Card({issue}) {
         <>
         {issue 
         ?
-        <div className = "transition-all duration-200 w-2/5 h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-blue hover:bg-hover-gray hover:border-purple">
+        <div className = "transition-all duration-200 w-2/5 h-full p-5 mt-5 border-solid rounded-lg cursor-pointer bg-white hover:bg-hover-gray hover:border-purple">
             <Link to={url}>
                 <h1 className = "text-3xl truncate font-bold">{issue.title}</h1>
                 <h2 className = "text-lg">{issue.description}</h2>
@@ -30,7 +30,7 @@ export default function Card({issue}) {
             <h1 className = "text-lg border-solid border-2 text-red hover:text-black" onClick={() => handleDelete(issue._id)} >Delete this task</h1>
         </div>
         :
-        <div className = "transition-all duration-200 w-2/5 h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-blue hover:bg-hover-gray hover:border-purple">
+        <div className = "transition-all duration-200 w-2/5 h-full p-5 mt-5 mb-5 border-solid rounded-lg cursor-pointer bg-white hover:bg-hover-gray hover:border-purple">
             <Link to="/new_task">
                 <h1 className = "text-3xl text-center font-bold">New Issue</h1>
             </Link>

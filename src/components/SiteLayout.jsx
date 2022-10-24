@@ -7,7 +7,7 @@ export function SiteLayout() {
         <>
             <Navbar/>
             <main>
-                <div className="p-5 pt-0 pb-0 flex flex-col lg:ml-72">
+                <div className="p-5 bg-off-white pt-0 pb-0 flex m-8 rounded-lg flex-col lg:ml-80">
                     <Outlet/>
                 </div>
             </main>
