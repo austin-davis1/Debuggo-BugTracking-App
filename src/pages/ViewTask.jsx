@@ -41,7 +41,7 @@ export default function ViewTask() {
             let object = {}
             object.title = title
             object.description = desc
-            editTask(data._id, object)
+            editTask(data._id, object, 1)
             dispatch(setRefresh(true))
             setEdit(false)
         }

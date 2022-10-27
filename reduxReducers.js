@@ -27,8 +27,36 @@ const needsRefresh = (state = false, action) => {
     }
 }
 
+const deleteModal = (state = false, action) => {
+    switch (action.type) {
+        case "MODAL_SWITCH":
+            return action.data
+        default:
+            return state
+    }
+}
+
+const selectedDelete = (state = null, action) => {
+    switch (action.type) {
+        case "DELETE_ID":
+            return action.data
+        default:
+            return state
+    }
+}
+
+const modalType = (state = "", action) => {
+    switch(action.type) {
+        case "MODAL_TYPE":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
-    bugs, isLoading, needsRefresh
+    bugs, isLoading, needsRefresh, 
+    deleteModal, selectedDelete, modalType
 })
 
 

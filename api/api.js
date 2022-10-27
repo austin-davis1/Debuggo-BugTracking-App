@@ -28,7 +28,8 @@ export async function createTask(object) {
     })
 }
 
-export default async function deleteTask(_id) {
+export async function deleteTask(_id) {
+    console.log("Delete called")
     await fetch(`http://localhost:5000/${_id}`, {
         method: "DELETE",
         headers: {
@@ -41,8 +42,9 @@ export default async function deleteTask(_id) {
     })
 }
 
-export async function editTask(_id, object) {
-    object.status = 1
+export async function editTask(_id, object, status) {
+    console.log("Edit called")
+    object.status = status
     await fetch(`http://localhost:5000/update/${_id}`, {
         method: "POST",
         headers: {
@@ -55,6 +57,21 @@ export async function editTask(_id, object) {
         return
     })
 }
+
+/*export async function archiveTask(_id, object) {
+    object.status = 0
+    await fetch(`http://localhost:5000/update/${_id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id,
+        body: JSON.stringify(object)
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+}*/
 
 export async function getTaskCount() {
     
