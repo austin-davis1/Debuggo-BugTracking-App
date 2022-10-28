@@ -9,9 +9,9 @@ import NewIssue from './pages/newIssue';
 import EditTask from './pages/EditTask';
 import { Projects } from './pages/Projects';
 import { UserProfile } from './pages/UserProfile';
-import {setLoading, setRefresh, setData} from "../reduxActions"
+import {setRefresh, setLoading, setData, setProjects} from "../reduxActions"
 import {useSelector, useDispatch} from 'react-redux'
-import  { getAllTasks }  from '../api/api.js'
+import  { getAllTasks, getAllProjects }  from '../api/api.js'
 import { SiteLayout } from "./components/SiteLayout"
 
 function App() {
@@ -21,9 +21,14 @@ function App() {
   useEffect(() => {
     async function loadData() {
       let allTasks =  await getAllTasks();
+      let projects = await getAllProjects()
+
+      console.log(projects)
 
       dispatch(setData(allTasks))
       dispatch(setRefresh(false))
+      //dispatch(setLoading(false))
+      dispatch(setProjects(projects))
     }
     
     loadData()

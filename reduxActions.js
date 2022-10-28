@@ -5,6 +5,13 @@ export const setData = (data) => {
     }
 }
 
+export const setProjects = (data) => {
+    return {
+        type: "SET_PROJECTS",
+        data: data
+    }
+}
+
 export const setLoading = (data) => {
     return {
         type: "SET_LOAD",

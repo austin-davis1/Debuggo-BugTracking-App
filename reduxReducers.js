@@ -9,6 +9,15 @@ const bugs = (state = [], action) => {
     }
 }
 
+const projects = (state = [], action) => {
+    switch (action.type) {
+        case "SET_PROJECTS":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const isLoading = (state = true, action) => {
     switch (action.type) {
         case "SET_LOAD":
@@ -55,7 +64,7 @@ const modalType = (state = "", action) => {
 }
 
 const allReducers = combineReducers({
-    bugs, isLoading, needsRefresh, 
+    bugs, projects, isLoading, needsRefresh, 
     deleteModal, selectedDelete, modalType
 })
 
