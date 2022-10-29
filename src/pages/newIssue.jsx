@@ -3,12 +3,23 @@ import { createTask } from "../../api/api"
 import { useDispatch } from "react-redux"
 import { setRefresh } from "../../reduxActions"
 import { Link, useNavigate } from "react-router-dom"
+import { TakeoutDiningSharp } from "@mui/icons-material"
 
 export default function NewIssue() {
 
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
     const [error, setError] = useState(false)
+    const [tags, setTags] = useState([])
+
+    const allTags = [
+        "Urgent",
+        "Priority",
+        "Bug",
+        "Upgrade",
+        "Question",
+        "Help Needed"
+    ]
 
     let dispatch = useDispatch()
     const navigate = useNavigate()
@@ -27,12 +38,20 @@ export default function NewIssue() {
             let object = {}
             object.title = title
             object.description = desc
+            object.dateCreated = new Date()
+            console.log(object.dateCreated)
+            console.log(object)
             createTask(object)
             dispatch(setRefresh(true))
             navigate('/dashboard')
         }
     }
 
+    function handleClick(tag) {
+        setTags([...tags, tag])
+        //setTags(tags.push(tag))
+        console.log(tags)
+    }
 
     return (
         <>
@@ -43,6 +62,11 @@ export default function NewIssue() {
                 <input onChange = {e => setTitle(e.target.value)} placeholder="Title goes here" className="text-2xl mb-5 p-1 rounded-lg bg-gray focus:outline-0 focus:shadow-none"></input>
                 <textarea onChange = {e => setDesc(e.target.value)} placeholder="Description goes here" className = "flex-grow text-2xl mb-5 p-1 rounded-lg bg-gray focus:outline-0 focus:shadow-none"></textarea>
                 <button onClick={() => submitForm()}>Submit Form</button>
+            </div>
+            <div className = "flex grid grid-cols-2 gap-2">
+                {allTags.map(tag => {
+                    return (<button onClick={() => handleClick(tag)} className="w-24 h-12 hover:bg-white">{tag}</button>)
+                })}
             </div>
         </>
     )
