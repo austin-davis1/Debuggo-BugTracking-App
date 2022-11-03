@@ -5,7 +5,9 @@ import {HashRouter as Router, Route, Routes} from "react-router-dom"
 import Home from './pages/home';
 import { Landing } from './pages/landing';
 import ViewTask from './pages/ViewTask';
+import ViewProject from './pages/ViewProject';
 import NewIssue from './pages/newIssue';
+import NewProject from './pages/newProject';
 import EditTask from './pages/EditTask';
 import { Projects } from './pages/Projects';
 import { UserProfile } from './pages/UserProfile';
@@ -27,7 +29,6 @@ function App() {
 
       dispatch(setData(allTasks))
       dispatch(setRefresh(false))
-      //dispatch(setLoading(false))
       dispatch(setProjects(projects))
     }
     
@@ -41,11 +42,13 @@ function App() {
         <Route path="/" element={<Landing/>} />
         <Route element={<SiteLayout/>}>
           <Route path="/dashboard" element={<Home/>} />
-          <Route path="/view_task/:taskId" element={<ViewTask/> } />
           <Route path="/projects" element={<Projects/>}/>
+          <Route path="/projects/new_project" element = {<NewProject/>}/>
+          <Route path="/projects/view_project/:projectId" element = {<ViewProject/>}/>
+          <Route path="/projects/view_project/:projectId/new_task" element = {<NewIssue/>}/>
+          <Route path="/projects/view_project/:projectId/view_task/:taskId" element = {<ViewTask/>}/>
           <Route path="/user_profile" element={<UserProfile/>}/>
           <Route path="/edit_task/:taskId" element={<EditTask/>} />
-          <Route path="/new_task" element={<NewIssue/>} />
         </Route>
       </Routes>
     </Router>

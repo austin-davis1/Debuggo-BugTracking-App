@@ -12,7 +12,7 @@ const dbo = require("./connect");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
  
-// This section will help you get a list of all the records.
+// Retrieve All Tasks
 recordRoutes.route("/record").get(function (req, res) {
  let db_connect = dbo.getDb();
  db_connect
@@ -24,6 +24,7 @@ recordRoutes.route("/record").get(function (req, res) {
    });
 });
  
+// Retrieve All Projects
 recordRoutes.route("/project").get(function (req, res) {
   let db_connect = dbo.getDb();
   db_connect
@@ -35,7 +36,7 @@ recordRoutes.route("/project").get(function (req, res) {
     });
  });
 
-// This section will help you get a single record by id
+// Retrieve Task
 recordRoutes.route("/record/:id").get(function (req, res) {
  let db_connect = dbo.getDb(); 
  let myquery = { _id: ObjectId(req.params.id) };
@@ -47,12 +48,15 @@ recordRoutes.route("/record/:id").get(function (req, res) {
    });
 });
  
-// This section will help you create a new record.
+// Create Task
 recordRoutes.route("/record/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
    title: req.body.title,
    description: req.body.description,
+   projectId: req.body.projectId,
+   dateCreated: req.body.dateCreated,
+   tags: req.body.tags,
    status: 1,
  };
  db_connect.collection("Tasks").insertOne(myobj, function (err, res) {
@@ -60,8 +64,23 @@ recordRoutes.route("/record/add").post(function (req, response) {
    response.json(res);
  });
 });
+
+// Create Project
+recordRoutes.route("/project/add").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myobj = {
+    title: req.body.title,
+    description: req.body.description,
+    dateCreated: req.body.dateCreated,
+    status: 1,
+  };
+  db_connect.collection("Projects").insertOne(myobj, function (err, res) {
+    if (err) throw err;
+    response.json(res);
+  });
+ });
  
-// This section will help you update a record by id.
+// Update Task
 recordRoutes.route("/update/:id").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
@@ -69,6 +88,9 @@ recordRoutes.route("/update/:id").post(function (req, response) {
    $set: {
      title: req.body.title,
      description: req.body.description,
+     dateCreated: req.body.dateCreated,
+     projectId: req.body.projectId,
+     tags: req.body.tags,
      status: req.body.status,
    },
  };
@@ -80,8 +102,29 @@ recordRoutes.route("/update/:id").post(function (req, response) {
      response.json(res);
    });
 });
+
+// Update Project
+recordRoutes.route("/updateP/:id").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  let newvalues = {
+    $set: {
+      title: req.body.title,
+      description: req.body.description,
+      dateCreated: req.body.dateCreated,
+      status: req.body.status,
+    },
+  };
+  db_connect
+    .collection("Projects")
+    .updateOne(myquery, newvalues, function (err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      response.json(res);
+    });
+ });
  
-// This section will help you delete a record
+// Delete task
 recordRoutes.route("/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
@@ -91,5 +134,16 @@ recordRoutes.route("/:id").delete((req, response) => {
    response.json(obj);
  });
 });
+
+// Delete Project
+recordRoutes.route("/delete/:id").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("Projects").deleteOne(myquery, function (err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    response.json(obj);
+  });
+ });
  
 module.exports = recordRoutes;

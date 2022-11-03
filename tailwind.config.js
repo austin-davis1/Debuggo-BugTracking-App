@@ -21,6 +21,9 @@ module.exports = {
         "hover-red": "#d85a5a",
         "green": "#3caa5f",
         "hover-green": "#68ca87",
+        "orange": "#e8820e",
+        "yellow": "#f7df05",
+        "blue-gray": "#1f2147"
       }
     },
   },

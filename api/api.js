@@ -44,7 +44,21 @@ export async function sortProjectsTasks(projects, tasks) {
 }
 
 export async function createTask(object) {
+    console.log(object)
     await fetch("http://localhost:5000/record/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(object),
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+}
+
+export async function createProject(object) {
+    await fetch("http://localhost:5000/project/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -70,8 +84,21 @@ export async function deleteTask(_id) {
     })
 }
 
+export async function deleteProject(_id) {
+    console.log("Delete called")
+    await fetch(`http://localhost:5000/delete/${_id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+}
+
 export async function editTask(_id, object, status) {
-    console.log("Edit called")
     object.status = status
     await fetch(`http://localhost:5000/update/${_id}`, {
         method: "POST",
@@ -86,9 +113,9 @@ export async function editTask(_id, object, status) {
     })
 }
 
-/*export async function archiveTask(_id, object) {
-    object.status = 0
-    await fetch(`http://localhost:5000/update/${_id}`, {
+export async function editProject(_id, object, status) {
+    object.status = status
+    await fetch(`http://localhost:5000/updateP/${_id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -99,8 +126,4 @@ export async function editTask(_id, object, status) {
         window.alert(error)
         return
     })
-}*/
-
-export async function getTaskCount() {
-    
 }

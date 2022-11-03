@@ -10,7 +10,7 @@ export default function Navbar() {
                     <span className="m-2 p-2 w-72 items-center justify-center rounded-lg bg-white">Hello</span>
                 </div>
             </div>
-            <div className="h-screen flex flex-col overflow-y-auto bg-off-white w-72 fixed top-0">
+            <div className="h-screen flex flex-col overflow-y-auto bg-blue-gray w-72 fixed top-0">
                 <ul className="w-full">
                     <div className="h-48 w-full m-3 flex justify-center align-center">
                         <img src={Logo} alt="logo"/>
