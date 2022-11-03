@@ -8,8 +8,8 @@ export default function NewIssue() {
 
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
-    const [tags, setTags] = useState([])
     const [error, setError] = useState(false)
+    const [tags, setTags] = useState([])
 
     const allTags = [
         "Urgent",
@@ -59,6 +59,11 @@ export default function NewIssue() {
         }
     }
 
+    function handleClick(tag) {
+        setTags([...tags, tag])
+        //setTags(tags.push(tag))
+        console.log(tags)
+    }
 
     return (
         <>
