@@ -1,6 +1,8 @@
 const { red } = require("@mui/material/colors");
 const express = require("express");
+const bcrypt = require('bcrypt')
  
+const saltRounds = 7;
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -146,4 +148,49 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
   });
  });
  
+ // Register New User
+ recordRoutes.route("/register").get(async function (req, response) {
+  let db_connect = dbo.getDb();
+
+  const takenUsername = await db_connect.collection("Users").findOne({username: req.body.username})
+  const takenEmail = await db_connect.collection("Users").findOne({email: req.body.email})
+
+  if (takenUsername || takenEmail) {
+    response.json({message: "Username or email has already been taken"})
+  }
+
+  else {
+    let hash = await bcrypt.hash(req.body.password, saltRounds)
+    console.log(hash)
+
+    let myobj = {
+      username: req.body.username,
+      email: req.body.email,
+      password: hash,
+      dateJoined: req.body.dateJoined,
+      authorizations: req.body.authorizations
+    };
+    db_connect.collection("Users").insertOne(myobj, function (err, res) {
+      if (err) throw err;
+      response.json(res);
+    });
+  }
+ });
+
+  // Login Verification
+  recordRoutes.route("/login").post(async function (req, response) {
+    let db_connect = dbo.getDb();
+  
+    const foundEmail = await db_connect.collection("Users").findOne({email: req.body.email})
+
+    if (foundEmail) {
+      let confirmation = await bcrypt.compare(req.body.password, foundEmail.password)
+      console.log(confirmation)
+      response.json({success: confirmation})
+    } else {
+      console.log("No email was found")
+      response.json({success: false, message: "No email was found"})
+    }
+   });
+
 module.exports = recordRoutes;

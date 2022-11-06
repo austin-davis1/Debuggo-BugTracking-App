@@ -127,3 +127,39 @@ export async function editProject(_id, object, status) {
         return
     })
 }
+
+export async function createUser(object) {
+    console.log(object)
+    let response = await fetch(`http://localhost:5000/register`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(object)
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+    let returnResponse = await response.json()
+    console.log(returnResponse)
+
+    return returnResponse
+}
+
+export async function verifyUser(object) {
+    let response = await fetch(`http://localhost:5000/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(object)
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+
+    let returnResponse = await response.json()
+    console.log(returnResponse)
+
+    return returnResponse
+}
