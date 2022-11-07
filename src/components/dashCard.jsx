@@ -1,11 +1,7 @@
 
 
 export function DashCard({title, data, color}) {
-
     let bgColor = `bg-${color}`
-
-    console.log(bgColor)
-
     return (
         <>
             <div className = "transition-all flex flex-col duration-200 w-full h-full p-5 m-5 border-solid rounded-lg cursor-pointer group bg-white hover:bg-hover-gray">

@@ -6,7 +6,9 @@ import allReducers from '../reduxReducers';
 import { Provider } from 'react-redux';
 import {createStore} from 'redux'
 
+
 const store = createStore(allReducers)
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

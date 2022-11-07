@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { setModal, setRefresh } from "../../reduxActions"
 import { editTask, deleteTask } from "../../api/api"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DashCard } from "../components/dashCard";
 
 export default function Home() {
@@ -15,11 +15,9 @@ export default function Home() {
     let completedBugs = useSelector(state => state.bugs.filter(bug => bug.status == 0))
 
     let urgentBugs = useSelector(state => state.bugs.filter(bug => bug.tags.find(tag => tag == "Urgent")))
-    
-    console.log("Urgent Bugs:")
-    console.log(urgentBugs)
 
     let dispatch = useDispatch()
+    let navigate = useNavigate()
 
     let bugCount = bugs.length
     let projectCount = projects.length
@@ -28,6 +26,7 @@ export default function Home() {
     let activeBugCount = activeBugs.length
     let completedBugCount = completedBugs.length
     
+    let user = useSelector(state => state.user)
 
     return (
         <>

@@ -1,11 +1,14 @@
 import { Link, UNSAFE_enhanceManualRouteObjects } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { createUser, verifyUser } from "../../api/api"
+import { createUser, verifyUser, getUser } from "../../api/api"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 export function Landing() {
 
     const navigate = useNavigate()
+    let dispatch = useDispatch()
+
     const [create, setCreate] = useState(false)
     const [formError, setFormError] = useState(false)
     const [error, setError] = useState(false)
@@ -39,6 +42,9 @@ export function Landing() {
             userObject.password = password
             let response = await verifyUser(userObject)
             if (response.success == true) {
+                let user = response.userObj
+                //dispatch(setUser(user))
+                sessionStorage.setItem("User", JSON.stringify(user))
                 navigate("/dashboard")
             } else {
                 alert("The information was not correct")

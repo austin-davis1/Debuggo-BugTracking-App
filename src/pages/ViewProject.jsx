@@ -10,6 +10,8 @@ import { setModal, setRefresh } from "../../reduxActions";
 export default function ViewProject() {
     let dispatch = useDispatch()
 
+    let loading = useSelector(state => state.isLoading)
+
     let  { projectId } = useParams()
     let allProjects = useSelector(state => state.projects)
 
@@ -46,7 +48,7 @@ export default function ViewProject() {
         <>
         <Link to="/projects" className="flex justify-center items-center bg-white mt-5 w-32 h-12 hover:border-4 rounded-lg hover:border-black hover:bg-blue hover:text-white">Back</Link>
         <div className="flex">
-            <h1 className="flex w-full bg-white mb-10 mt-10 rounded-lg text-7xl justify-left">{projectData.name}</h1>
+            <h1 className="flex w-full bg-white mb-10 mt-10 rounded-lg text-7xl justify-left">{projectData?.name}</h1>
         </div>
         <div className="bg-off-white w-full justify-items-center">
             <div className="w-full">

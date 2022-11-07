@@ -12,14 +12,25 @@ export default function ViewTask() {
 
 
     let allTasks = useSelector(state => state.bugs)
+    let loading = useSelector(state => state.isLoading)
 
     let data = allTasks.find((task) => task._id == taskId)
 
     const [edit, setEdit] = useState(false)
-    const [title, setTitle] = useState(data.title)
-    const [desc, setDesc] = useState(data.description)
+    const [title, setTitle] = useState(data?.title)
+    const [desc, setDesc] = useState(data?.description)
     const [error, setError] = useState(false)
-    const [tags, setTags] = useState([data.tags])
+    const [tags, setTags] = useState([data?.tags])
+
+    useEffect(() => {
+        if (!loading) {
+            setTitle(data.title)
+            setDesc(data.description)
+            setTags(data.tags)
+        }
+    }, [loading])
+
+
 
     let dispatch = useDispatch()
     
@@ -82,8 +93,8 @@ export default function ViewTask() {
                 </>
                 :
                 <>
-                    <input className="text-3xl p-7 " onChange={(e) => setTitle(e.target.value)} placeholder={data.title}/>
-                    <input className="text-2xl p-7" onChange={(e) => setDesc(e.target.value)} placeholder={data.description}/>
+                    <input className="text-3xl p-7 " onChange={(e) => setTitle(e.target.value)} placeholder={data?.title}/>
+                    <input className="text-2xl p-7" onChange={(e) => setDesc(e.target.value)} placeholder={data?.description}/>
                     <button className="text-2xl p-7 mb-5 hover:border-2 hover:border-black" onClick={() => submitEdit()}>Submit Edit</button>
                     <button className="text-2xl p-7 mb-5 hover:border-2 hover:border-black" onClick={() => setEdit(false)}>Cancel</button>
                     <div className="flex grid grid-cols-2 gap-2">

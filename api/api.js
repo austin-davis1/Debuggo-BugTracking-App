@@ -163,3 +163,25 @@ export async function verifyUser(object) {
 
     return returnResponse
 }
+
+export async function getUser(_id) {
+    const response = await fetch(`http://localhost:5000/user/` , {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id
+    })
+
+    if (!response.ok) {
+        const message = `An error ocured: ${response.statusText}`
+        window.alert(message)
+        return
+    }
+
+    //const records = await response.json()
+    const user = await response.json()
+    
+
+    return user
+}

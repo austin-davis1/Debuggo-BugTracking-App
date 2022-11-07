@@ -31,7 +31,7 @@ export default function Card({issue}) {
 
     return (
     <>
-        <div className = "transition-all flex flex-col duration-200 w-full h-full p-5 mt-5 ml-5 mr-5 border-solid rounded-lg cursor-pointer group bg-white hover:bg-hover-gray hover:border-purple">
+        <div className = "transition-all flex flex-col duration-200 w-full h-full p-5 mt-5 ml-5 mr-5 border-solid border-2 border-black rounded-lg cursor-pointer group bg-white hover:bg-hover-gray hover:border-purple">
             <Link className = "h-full" to={url}>
                 <div className="w-full pl-2 bg-blue rounded-lg">
                     <h1 className = "text-3xl text-white truncate font-bold">{issue.title}</h1>

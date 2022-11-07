@@ -149,7 +149,7 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
  });
  
  // Register New User
- recordRoutes.route("/register").get(async function (req, response) {
+ recordRoutes.route("/register").post(async function (req, response) {
   let db_connect = dbo.getDb();
 
   const takenUsername = await db_connect.collection("Users").findOne({username: req.body.username})
@@ -181,16 +181,28 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
   recordRoutes.route("/login").post(async function (req, response) {
     let db_connect = dbo.getDb();
   
-    const foundEmail = await db_connect.collection("Users").findOne({email: req.body.email})
+    const userObj = await db_connect.collection("Users").findOne({email: req.body.email})
 
-    if (foundEmail) {
-      let confirmation = await bcrypt.compare(req.body.password, foundEmail.password)
+    if (userObj) {
+      let confirmation = await bcrypt.compare(req.body.password, userObj.password)
       console.log(confirmation)
-      response.json({success: confirmation})
+      response.json({success: confirmation, userObj})
     } else {
       console.log("No email was found")
       response.json({success: false, message: "No email was found"})
     }
    });
+
+  // Get single user information
+recordRoutes.route("/user").get(function (req, res) {
+  let db_connect = dbo.getDb(); 
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect
+    .collection("Users")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  });
 
 module.exports = recordRoutes;

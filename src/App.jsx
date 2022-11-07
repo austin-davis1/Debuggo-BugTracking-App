@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {useEffect} from 'react'
-import {HashRouter as Router, Route, Routes} from "react-router-dom"
+import {HashRouter as Router, Route, Routes, useNavigate} from "react-router-dom"
 import Home from './pages/home';
 import { Landing } from './pages/landing';
 import ViewTask from './pages/ViewTask';
@@ -16,12 +16,14 @@ import {useSelector, useDispatch} from 'react-redux'
 import  { getAllTasks, getAllProjects }  from '../api/api.js'
 import { SiteLayout } from "./components/SiteLayout"
 
+
 function App() {
 
   let dispatch = useDispatch()
 
   useEffect(() => {
     async function loadData() {
+      dispatch(setLoading(true))
       let allTasks =  await getAllTasks();
       let projects = await getAllProjects()
 
@@ -29,6 +31,7 @@ function App() {
 
       dispatch(setData(allTasks))
       dispatch(setRefresh(false))
+      dispatch(setLoading(false))
       dispatch(setProjects(projects))
     }
     
