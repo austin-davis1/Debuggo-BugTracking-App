@@ -77,7 +77,7 @@ export default function NewIssue() {
             </div>
             <div classname="flex grid grid-cols-2 gap-2">
                 {allTags.map(tag => {
-                    return (<button onClick={() => handleClick(tag) } className={"w-24 h-12 hover:bg-white " + (tags.find((ptag) => ptag == tag) ? "bg-blue" : " ")}>{tag}</button>)
+                    return (<button onClick={() => handleClick(tag) } className={"w-24 h-12 rounded-lg mr-4 hover:bg-white " + (tags.find((ptag) => ptag == tag) ? "bg-blue" : " ")}>{tag}</button>)
                 })}
             </div>
         </>

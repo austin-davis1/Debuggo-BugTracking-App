@@ -7,8 +7,6 @@ import { useEffect } from "react";
 export function SiteLayout() {
 
     let user = sessionStorage.getItem("User")
-    console.log(user)
-    //let user = useSelector(state => state.user)
     let navigate = useNavigate()
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { createUser, verifyUser, getUser } from "../../api/api"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
+import Logo from "../SVGs/BUG_TRACKER.png"
 
 export function Landing() {
 
@@ -20,6 +21,7 @@ export function Landing() {
 
     //Creation State
     const [userCreate, setUserCreate] = useState("")
+    const [name, setName] = useState("")
     const [emailCreate, setEmailCreate] = useState("")
     const [passwordCreate, setPasswordCreate] = useState("")
 
@@ -58,10 +60,12 @@ export function Landing() {
         } else {
             let userObj = {}
             userObj.username = userCreate
+            userObj.name = name
             userObj.email = emailCreate
             userObj.password = passwordCreate
             userObj.dateJoined = new Date()
-            userObj.authorizations = ["Admin"]
+            userObj.authorizations = ["User"]
+            userObj.assignedTasks = []
             if (createUser(userObj)){
                 setCreate(false)
             } else{
@@ -73,31 +77,43 @@ export function Landing() {
     return(
         <>
             <div className="flex flex-col items-center justify-center h-screen">
-                <h1 className="text-8xl text-blue">Bug Tracker App</h1>
-                <div className="flex flex-col bg-off-white mt-6 w-3/12">
+                <div className="flex flex-col bg-off-white border-2 border-blue pb-6 rounded-lg mt-6 w-3/12">
+                    <div className="w-full flex justify-center border-4 border-off-white bg-white rounded-lg">
+                        <img src={Logo} alt="logo" className="mt-2 w-6/12 flex justify-center"/>
+                    </div>
                     {!create ? <>
-                    <h1 className="text-6xl m-2">Sign-In</h1>
+                    <h1 className="flex justify-center text-4xl m-2">Sign-In</h1>
                     <h1 className="text-2xl m-2">Email:</h1>
-                    <input className="m-2" placeholder="Email" onChange = {e => setEmail(e.target.value)}></input>
+                    <input className="m-2 pl-4 rounded-lg h-8" placeholder="Email" onChange = {e => setEmail(e.target.value)}></input>
                     <h1 className="text-2xl m-2">Password:</h1>
-                    <input className="m-2 "placeholder="Password" onChange = {e => setPassword(e.target.value)}></input>
-                    <div className = "flex flex-row w-full mt-4">
-                        <span className = "flex justify-center w-6/12 bg-green text-2xl cursor-pointer" onClick={() => handleLogin()}>Sign In</span>
-                        <span className = "flex justify-center w-6/12 bg-blue text-2xl cursor-pointer" onClick={() => setCreate(true)}>Create Account</span>
+                    <input className="m-2 pl-4 rounded-lg h-8"placeholder="Password" onChange = {e => setPassword(e.target.value)}></input>
+                    <div className = "flex flex-col w-full justify-center mt-4">
+                        <div className="flex justify-center w-full">
+                            <span className = "flex p-2 rounded-lg justify-center w-9/12 h-full items-center opacity-90 bg-green text-2xl cursor-pointer hover:bg-hover-gray hover:border-solid hover:border-blue hover:border-2" onClick={() => handleLogin()}>Login</span>
+                        </div>
+                        <div className = "flex justify-center w-full">
+                            <span className = "flex mt-4 rounded-lg justify-center w-9/12 h-full items-center opacity-90 bg-blue text-2xl cursor-pointer hover:bg-hover-gray" onClick={() => setCreate(true)}>Create Account</span>
+                        </div>
                     </div>
                     </>
                     :
                     <>
-                        <h1 className="text-6xl m-2">Create Account</h1>
+                        <h1 className="text-4xl m-2">Create Account</h1>
                         <h1 className="text-2xl m-2">Username:</h1>
-                        <input className="m-2" placeholder="Username" onChange = {e => setUserCreate(e.target.value)}></input>
+                        <input className="m-2 pl-4 rounded-lg h-8" placeholder="Username" onChange = {e => setUserCreate(e.target.value)}></input>
+                        <h1 className="text-2xl m-2">Name:</h1>
+                        <input className="m-2 pl-4 rounded-lg h-8" placeholder="Name" onChange = {e => setName(e.target.value)}></input>
                         <h1 className="text-2xl m-2">Email:</h1>
-                        <input className="m-2" placeholder="Email" onChange = {e => setEmailCreate(e.target.value)}></input>
+                        <input className="m-2 pl-4 rounded-lg h-8" placeholder="Email" onChange = {e => setEmailCreate(e.target.value)}></input>
                         <h1 className="text-2xl m-2">Password:</h1>
-                        <input className="m-2 "placeholder="Password" onChange = {e => setPasswordCreate(e.target.value)}></input>
-                        <div className = "flex flex-row w-full mt-4">
-                            <span className = "flex justify-center w-6/12 bg-green text-2xl cursor-pointer" onClick={() => handleCreation()}>Create</span>
-                            <span className = "flex justify-center w-6/12 bg-red text-2xl cursor-pointer" onClick={() => setCreate(false)}>Cancel</span>
+                        <input className="m-2 pl-4 rounded-lg h-8"placeholder="Password" onChange = {e => setPasswordCreate(e.target.value)}></input>
+                        <div className = "flex flex-col w-full justify-center mt-4">
+                            <div className="flex justify-center w-full">
+                                <span className = "flex p-2 rounded-lg justify-center w-9/12 h-full items-center opacity-90 bg-green text-2xl cursor-pointer hover:bg-hover-gray hover:border-solid hover:border-blue hover:border-2" onClick={() => handleCreation()}>Create</span>
+                            </div>
+                            <div className="flex justify-center w-full">
+                                <span className = "flex mt-4 rounded-lg justify-center w-9/12 h-full items-center opacity-90 bg-red text-2xl cursor-pointer hover:bg-hover-gray" onClick={() => setCreate(false)}>Cancel</span>
+                            </div>
                         </div>
                     </>
                     }

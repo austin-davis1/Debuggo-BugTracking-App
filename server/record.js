@@ -165,10 +165,12 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
 
     let myobj = {
       username: req.body.username,
+      name: req.body.name,
       email: req.body.email,
       password: hash,
       dateJoined: req.body.dateJoined,
-      authorizations: req.body.authorizations
+      authorizations: req.body.authorizations,
+      assignedTasks: req.body.assignedTasks
     };
     db_connect.collection("Users").insertOne(myobj, function (err, res) {
       if (err) throw err;
