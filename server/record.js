@@ -38,6 +38,18 @@ recordRoutes.route("/project").get(function (req, res) {
     });
  });
 
+ // Retrieve All Projects
+recordRoutes.route("/users").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  db_connect
+    .collection("Users")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+ });
+
 // Retrieve Task
 recordRoutes.route("/record/:id").get(function (req, res) {
  let db_connect = dbo.getDb(); 
@@ -58,7 +70,14 @@ recordRoutes.route("/record/add").post(function (req, response) {
    description: req.body.description,
    projectId: req.body.projectId,
    dateCreated: req.body.dateCreated,
+   comments: req.body.comments,
+   createdBy: req.body.createdBy,
+   lastUpdated: req.body.lastUpdated,
+   dateCompleted: req.body.dateCompleted,
+   estimatedCompletion: req.body.estimatedCompletion,
+   completedBy: req.body.completedBy,
    tags: req.body.tags,
+   users: req.body.users,
    status: 1,
  };
  db_connect.collection("Tasks").insertOne(myobj, function (err, res) {
@@ -93,6 +112,13 @@ recordRoutes.route("/update/:id").post(function (req, response) {
      dateCreated: req.body.dateCreated,
      projectId: req.body.projectId,
      tags: req.body.tags,
+     comments: req.body.comments,
+     createdBy: req.body.createdBy,
+     lastUpdated: req.body.lastUpdated,
+     dateCompleted: req.body.dateCompleted,
+     completedBy: req.body.completedBy,
+     estimatedCompletion: req.body.estimatedCompletion,
+     users: req.body.users,
      status: req.body.status,
    },
  };
@@ -170,7 +196,8 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
       password: hash,
       dateJoined: req.body.dateJoined,
       authorizations: req.body.authorizations,
-      assignedTasks: req.body.assignedTasks
+      assignedTasks: req.body.assignedTasks,
+      pictureID: req.body.pictureID
     };
     db_connect.collection("Users").insertOne(myobj, function (err, res) {
       if (err) throw err;

@@ -23,7 +23,7 @@ export function Projects() {
 
 
     return (
-        <>
+        <div className="h-auto">
         {isModal
         ?
         <>
@@ -43,6 +43,6 @@ export function Projects() {
             </Link>
         </div>
         }
-    </>
+    </div>
     )
 }

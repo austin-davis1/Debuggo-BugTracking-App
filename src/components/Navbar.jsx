@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { sideData } from "./sidebardata";
+import { sideData, adminSideData } from "./sidebardata";
 import Logo from "../SVGs/BUG_TRACKER.png"
 import { useSelector } from "react-redux";
 
@@ -35,16 +35,35 @@ export default function Navbar() {
                         <img src={Logo} alt="logo"/>
                     </div>
                     <div className="border-solid border-white border-2 rounded-full m-2"/>
-                {sideData.map((data, index) => {
-                    return (
-                    <li key={index} className="flex justify-center">
-                        <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? " bg-blue rounded-full" : " hover:bg-blue")}>
-                            {data.icon}
-                            <span className="ml-4">{data.title}</span>
-                        </NavLink>
-                    </li>
-                );
-                })}
+
+                {primaryAuthorization == "Admin" 
+                ?
+                <>
+                    {adminSideData.map((data, index) => {
+                        return (
+                        <li key={index} className="flex justify-center">
+                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? " bg-blue " : " hover:bg-blue")}>
+                                {data.icon}
+                                <span className="ml-4">{data.title}</span>
+                            </NavLink>
+                        </li>
+                    );
+                    })}
+                </>
+                :
+                <>
+                    {sideData.map((data, index) => {
+                        return (
+                        <li key={index} className="flex justify-center">
+                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? " bg-blue " : " hover:bg-blue")}>
+                                {data.icon}
+                                <span className="ml-4">{data.title}</span>
+                            </NavLink>
+                        </li>
+                    );
+                    })}
+                </>
+                }
                 </ul>
             </div>
         </>

@@ -7,7 +7,7 @@ export function TagButton({tag}) {
     if (tag === "Urgent") {
         color = "red"
     } else if (tag === "Priority") {
-        color = "black"
+        color = "blue"
     } else if (tag === "Bug") {
         color = "blue"
     } else if (tag === "Upgrade") {
@@ -15,7 +15,7 @@ export function TagButton({tag}) {
     } else if (tag === "Question") {
         color = "green"
     } else if (tag === "Help Needed") {
-        color = "black"
+        color = "blue"
     } else {
         color = "off-white"
     }

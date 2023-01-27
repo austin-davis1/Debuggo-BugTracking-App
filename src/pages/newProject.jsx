@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 export default function NewProject() {
 
-    const [name, setName] = useState("")
+    const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
     const [error, setError] = useState(false)
 
@@ -21,12 +21,13 @@ export default function NewProject() {
     }, [error])
 
     async function submitForm() {
-        if (name === "" || desc === "") {
+        if (title === "" || desc === "") {
             setError(true)
         } else {
             let object = {}
-            object.name = name
+            object.title = title
             object.description = desc
+            object.dateCreated = new Date()
             createProject(object)
             dispatch(setRefresh(true))
             navigate('/projects')
@@ -35,15 +36,15 @@ export default function NewProject() {
 
 
     return (
-        <>
+        <div className="h-auto">
             <Link to="/dashboard">
                     <button className="bg-white mt-5 w-32 h-12 hover:border-4 rounded-lg hover:border-black hover:bg-blue hover:text-white">Back</button>
             </Link>
-            <div className = "flex flex-col p-5 text-white mb-5 h-auto rounded-lg bg-black">
-                <input onChange = {e => setName(e.target.value)} placeholder="Title goes here" className="text-2xl mb-5 p-1 rounded-lg bg-gray focus:outline-0 focus:shadow-none"></input>
-                <textarea onChange = {e => setDesc(e.target.value)} placeholder="Description goes here" className = "flex-grow text-2xl mb-5 p-1 rounded-lg bg-gray focus:outline-0 focus:shadow-none"></textarea>
+            <div className = "flex flex-col p-5 text-black mb-5 h-auto rounded-lg bg-off-white">
+                <input onChange = {e => setTitle(e.target.value)} placeholder="Title goes here" className="text-2xl mb-5 p-1 rounded-lg bg-white border-2 border-blue focus:outline-0 focus:shadow-none"></input>
+                <textarea onChange = {e => setDesc(e.target.value)} placeholder="Description goes here" className = "flex-grow text-2xl mb-5 p-1 rounded-lg bg-white border-2 border-blue focus:outline-0 focus:shadow-none"></textarea>
                 <button onClick={() => submitForm()}>Submit Form</button>
             </div>
-        </>
+        </div>
     )
 }

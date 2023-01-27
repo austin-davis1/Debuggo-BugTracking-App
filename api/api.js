@@ -11,7 +11,6 @@ export async function getAllTasks() {
     //const records = await response.json()
     const records = await response.json()
     
-
     return records
 }
 
@@ -27,8 +26,22 @@ export async function getAllProjects() {
     //const records = await response.json()
     const projects = await response.json()
     
-
     return projects
+}
+
+export async function getAllUsers() {
+    const response = await fetch(`http://localhost:5000/users/`)
+
+    if (!response.ok) {
+        const message = `An error ocured: ${response.statusText}`
+        window.alert(message)
+        return
+    }
+
+    //const records = await response.json()
+    const users = await response.json()
+    
+    return users
 }
 
 export async function sortProjectsTasks(projects, tasks) {
@@ -100,6 +113,14 @@ export async function deleteProject(_id) {
 
 export async function editTask(_id, object, status) {
     object.status = status
+
+    if (object.status == 0) {
+        object.dateCompleted = new Date()
+    } else if (object.status == 1) {
+        object.dateCompleted = null
+        object.completedBy = null
+    }
+    
     await fetch(`http://localhost:5000/update/${_id}`, {
         method: "POST",
         headers: {
@@ -128,8 +149,32 @@ export async function editProject(_id, object, status) {
     })
 }
 
+export async function completeProject(_id, object) {
+    object.status = 0
+    await fetch(`http://localhost:5000/updateP/${_id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        id: _id,
+        body: JSON.stringify(object)
+    }).catch(error => {
+        window.alert(error)
+        return
+    })
+
+    let tasks = await getAllTasks()
+    tasks.map((task) => {
+        if (task.projectId == _id) {
+            console.log("Made it inside important if")
+            editTask(task._id, task, 0)
+        }
+    })
+}
+
 export async function createUser(object) {
     console.log(object)
+    object.pictureID = null
     let response = await fetch(`http://localhost:5000/register`, {
         method: "POST",
         headers: {

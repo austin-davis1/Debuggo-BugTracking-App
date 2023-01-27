@@ -86,7 +86,7 @@ export function Landing() {
                     <h1 className="text-2xl m-2">Email:</h1>
                     <input className="m-2 pl-4 rounded-lg h-8" placeholder="Email" onChange = {e => setEmail(e.target.value)}></input>
                     <h1 className="text-2xl m-2">Password:</h1>
-                    <input className="m-2 pl-4 rounded-lg h-8"placeholder="Password" onChange = {e => setPassword(e.target.value)}></input>
+                    <input className="m-2 pl-4 rounded-lg h-8" type="password" placeholder="Password" onChange = {e => setPassword(e.target.value)}></input>
                     <div className = "flex flex-col w-full justify-center mt-4">
                         <div className="flex justify-center w-full">
                             <span className = "flex p-2 rounded-lg justify-center w-9/12 h-full items-center opacity-90 bg-green text-2xl cursor-pointer hover:bg-hover-gray hover:border-solid hover:border-blue hover:border-2" onClick={() => handleLogin()}>Login</span>

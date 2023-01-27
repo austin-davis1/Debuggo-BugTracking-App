@@ -2,19 +2,28 @@
 module.exports = {
   content: [
     "./src/pages/*.jsx",
-    "./src/components/*.jsx"
+    "./src/components/*.jsx",
+    "./src/*"
   ],
   theme: {
+    textColor: {
+      primary: "#000",
+      blue: "#004aad",
+      green: "#3caa5f",
+      red: "#cf3434",
+      white: "#FFF"
+    },
     fontFamily: {
       'sans': 'Arial'
     },
     extend: {
       colors: {
-        "black": "#1a1a1a",
+        "black": "#000000",
+        "white": "#ffffff",
         "gray": "#2a2a2a",
         "off-white": "#e8e8e8",
         "blue": "#004aad",
-        "hover-gray": "#4d4d4d",
+        "hover-gray": "#9c9c9c",
         "purple": "#7846b9",
         "hover-purple": "#936bc7",
         "red": "#cf3434",

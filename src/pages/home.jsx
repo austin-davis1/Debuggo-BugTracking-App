@@ -5,8 +5,12 @@ import { editTask, deleteTask } from "../../api/api"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link, useNavigate } from "react-router-dom";
 import { DashCard } from "../components/dashCard";
+import { AdminView } from "../components/AdminView";
+import { TechView } from "../components/TechnicianView";
 
 export default function Home() {
+    let user = sessionStorage.getItem("User")
+
     let bugs = useSelector(state => state.bugs)
     let projects = useSelector(state => state.projects)
     let activeProjects = useSelector(state => state.projects.filter(project => project.status == 1))
@@ -25,25 +29,17 @@ export default function Home() {
     let completedProjectCount = completedProjects.length
     let activeBugCount = activeBugs.length
     let completedBugCount = completedBugs.length
-    
-    let user = useSelector(state => state.user)
+
+    let userObj = JSON.parse(user)
 
     return (
         <>
-            <div className="grid grid-cols-3 gap-12 justify-items-center">
-                <div className="w-full">
-                    <DashCard title={"Total Projects"} data={projectCount} color="red"/>
-                    <DashCard title={"Total Bugs"} data={bugCount} color="blue"/>
-                </div>
-                <div className="w-full">
-                    <DashCard title={"Active Projects"} data={activeProjectCount} color="blue"/>
-                    <DashCard title={"Active Bugs"} data={activeBugCount} color="green"/>
-                </div>
-                <div className="w-full">
-                    <DashCard title={"Completed Projects"} data={completedProjectCount} color="red"/>
-                    <DashCard title={"Completed Bugs"} data={completedBugCount} color="blue"/>
-                </div>
-            </div>
+            {userObj.authorizations.find((authorization) => authorization == "Admin")
+            ?
+                <AdminView/>
+            :
+                <TechView/>
+            }
         </>
     )
 }

@@ -8,7 +8,7 @@ import ViewTask from './pages/ViewTask';
 import ViewProject from './pages/ViewProject';
 import NewIssue from './pages/newIssue';
 import NewProject from './pages/newProject';
-import EditTask from './pages/EditTask';
+import { ManageUsers } from './pages/manageUsers';
 import { Projects } from './pages/Projects';
 import { UserProfile } from './pages/UserProfile';
 import {setRefresh, setLoading, setData, setProjects} from "../reduxActions"
@@ -51,7 +51,7 @@ function App() {
           <Route path="/projects/view_project/:projectId/new_task" element = {<NewIssue/>}/>
           <Route path="/projects/view_project/:projectId/view_task/:taskId" element = {<ViewTask/>}/>
           <Route path="/user_profile" element={<UserProfile/>}/>
-          <Route path="/edit_task/:taskId" element={<EditTask/>} />
+          <Route path="/manage_users" element={<ManageUsers/>}/>
         </Route>
       </Routes>
     </Router>
