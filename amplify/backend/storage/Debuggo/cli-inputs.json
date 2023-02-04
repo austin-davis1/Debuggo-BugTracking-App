@@ -1,0 +1,14 @@
+{
+  "resourceName": "Debuggo",
+  "policyUUID": "6785b95b",
+  "bucketName": "bugtrackerimages",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

@@ -230,3 +230,11 @@ export async function getUser(_id) {
 
     return user
 }
+
+export async function uploadProfilePicture() {
+
+}
+
+export async function getProfilePicture() {
+    
+}
