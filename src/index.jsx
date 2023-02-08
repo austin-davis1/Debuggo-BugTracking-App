@@ -1,15 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import allReducers from '../reduxReducers';
-import { Provider } from 'react-redux';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import App from './App'
+import allReducers from '../reduxReducers'
+import { Provider } from 'react-redux'
 import {createStore} from 'redux'
-import { Amplify, Storage } from "aws-amplify"
-import awsconfig from "./aws-exports"
 
 const store = createStore(allReducers)
-Amplify.configure(awsconfig)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,4 +16,3 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-
