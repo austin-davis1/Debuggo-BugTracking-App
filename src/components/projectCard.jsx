@@ -72,13 +72,16 @@ export function ProjectCard({project}) {
     return (
         <>
         {showModal && <ActionModal type={modalType} data={selectedData} showModal={showModal} setShowModal={setShowModal}/>}
-        <div className="flex bg-white justify-between border-solid border-2 border-black rounded-lg p-2 mt-6 mb-6 h-48 hover:bg-off-white cursor-pointer">
-            <Link to={url} className="flex flex-col h-full bg-white">
-                <div className="flex w-full bg-blue h-8"/>
+        <div className="flex bg-white justify-between border-solid border-2 border-black rounded-lg p-2 mt-6 mb-6 h-auto hover:bg-off-white cursor-pointer">
+            <Link to={url} className="flex flex-col h-full w-full bg-white">
+                <div className="flex w-full bg-blue rounded-lg h-auto">
+                    <h1 className="text-4xl p-2 text-white font-bold">{project.title}</h1>
+                </div>
                 <div className="flex flex-row items-center">
-                    <div className="flex flex-row bg-white p-2 mt-2 mb-6 mr-16 cursor-pointer">
-                        <div className="flex w-96 border-2 border-blue rounded-lg p-2 text-white">
-                            <h1 className="text-4xl break-normal text-blue font-bold">{project.title}</h1>
+                    <div className="flex flex-col w-4/12 bg-white p-2 mt-2 mb-6 mr-16 cursor-pointer">
+                        <h1 className="text-2xl font-bold">Project Description:</h1>
+                        <div className="flex w-full text-black">
+                            <h1 className="text-lg text-black italic">{project.description}</h1>
                         </div>
                     </div>
                     <div className="mx-4 flex flex-col w-64 self-center">

@@ -86,7 +86,7 @@ export function UserProfile() {
         <div className="h-screen">
             <div className="flex h-86 mt-4">
                 <div className="h-full static w-64 rounded-full bg-white border-solid border-2 border-blue">
-                    <img src={photo} className="flex object-fill rounded-full opacity-70 justify-left"/> 
+                    <img src={photo} className="flex object-fill rounded-full justify-left"/> 
                 </div>
                 <div className="ml-48">
                     <h1 className="text-6xl text-blue">{userObj.username}</h1>
