@@ -1,48 +1,92 @@
-import picture from "../SVGs/no-profile-picture-icon.svg"
-import { Storage } from "aws-amplify"
 import { useState, useEffect } from "react"
+import { uploadFile, getFile } from "../data/storageService.js"
+import { updateUser } from "../../api/api.js"
+import picture from "../SVGs/no-profile-picture-icon.svg"
 
 export function UserProfile() {
 
-    const [photos, setPhotos] = useState([])
+    const [photo, setPhoto] = useState([])
 
     let user = sessionStorage.getItem("User")
     let userObj = JSON.parse(user)
     let joinDate = new Date(userObj.dateJoined)
-    let dateString = joinDate.toISOString().slice(0, 10)
+    
+    /**
+     * To get the shortened date you can also use
+     * .toLocaleDateString('en-US'). 
+     * ex: If the join date is Feb 2nd, then 
+     * joinDate.toLocaleDateString('en-US') = 2/2/2023
+     * The timezone automatically gets inferred by the users 
+     * browser agent timezone. 
+     */
+    let dateString = joinDate.toLocaleDateString('en-US');
 
-    async function onChange(e) {
+    async function onProfileImageUpload(e) {
         const file = e.target.files[0];
-        try {
-            await Storage.put(file.name, file, {
-            contentType: "image/png", // contentType is optional
-            });
-            console.log("FILE HAS BEEN UPLOADED!!!")
-        } catch (error) {
-            console.log("Error uploading file: ", error);
+
+        if(file){
+            try {
+                //Name the file profile_{userId}.ext. This will ensure
+                //there are no naming collisions with the file names, plus 
+                //will ensure each user only has one profile picture stored on
+                //s3. 
+                
+                //Break the file name into pieces using .substring. We use 
+                //lastIndexOf instead of indexOf just in case the file name 
+                //has multiple periods. We only care about the last one. 
+                const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+                const newFileName = `profile_${userObj._id}${fileExtension}`;
+
+                //The .name property on a File object is readonly, so we need to 
+                //create a new file with the new name. (There is probably a better 
+                //way to accomplish the rename)
+                const newFile = new File([file], newFileName, {
+                    type:file.type,
+                    lastModified:file.lastModified
+                });
+
+                //TODO: Show the user some type of "working" modal
+                //while the file is being uploaded and the user object
+                //is updated.
+                await uploadFile(newFile);
+                console.log("FILE HAS BEEN UPLOADED!!!");
+
+                //Once the file has been uploaded, clear
+                //out the input element so it does not keep
+                //showing the file selected
+                e.target.value = '';
+
+                //After the file has been successfully uploaded, update the
+                //user object to reflect the change. 
+                userObj.pictureID = newFileName;
+                await updateUser(userObj._id, userObj);
+                sessionStorage.setItem("User", JSON.stringify(userObj))
+                
+            } catch (error) {
+                console.log("Error uploading file: ", error);
+            }
         }
     }
 
     useEffect(() => {
-        async function loadPhotos () {
-            Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-            .then((result) =>  {
-                console.log(result)
-                setPhotos(result)
-            })
-            .catch((err) => console.log(err));
+        async function loadProfilePhoto () {
+            //If a valid image is found, show it, otherwise
+            //default to the no photo svg icon.
+            let photoSrc = picture;
+            if(userObj && userObj.pictureID){
+                photoSrc = await getFile(userObj.pictureID);
+            }
+            
+            setPhoto(photoSrc);
         }
-        loadPhotos()
+        loadProfilePhoto()
     }, [])
-
-
-
 
     return (
         <div className="h-screen">
             <div className="flex h-86 mt-4">
                 <div className="h-full static w-64 rounded-full bg-white border-solid border-2 border-blue">
-                    <img src={picture} className="flex object-fill rounded-full opacity-70 justify-left"/> 
+                    <img src={photo} className="flex object-fill rounded-full opacity-70 justify-left"/> 
                 </div>
                 <div className="ml-48">
                     <h1 className="text-6xl text-blue">{userObj.username}</h1>
@@ -50,12 +94,11 @@ export function UserProfile() {
                     <h1 className="text-2xl">Contact: {userObj.email}</h1>
                     <h1 className="text-xl">Date Joined: {dateString}</h1>
                 </div>
-            <input type="file" onChange={onChange}/>
+            <input type="file" onChange={onProfileImageUpload}/>
             </div>
             <div className="w-full border-solid border-2 mt-6 border-blue">
                 
             </div>
-        
         </div>
     )
 }

@@ -1,4 +1,3 @@
-import { Link, UNSAFE_enhanceManualRouteObjects } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { createUser, verifyUser, getUser } from "../../api/api"
 import { useNavigate } from "react-router-dom"
