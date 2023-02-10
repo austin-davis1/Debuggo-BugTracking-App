@@ -1,7 +1,7 @@
 import Chart from "react-apexcharts"
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { setLoading } from "../../reduxActions"
+import { setLoading } from "../state/reduxActions"
 
 export function PieChart({pieOptions, title}) {
     const [options, setOptions] = useState({})

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { deleteTask, editTask, deleteProject, editProject, completeProject  } from "../../api/api"
+import { deleteTask, editTask, deleteProject, editProject, completeProject  } from "../data/api.js"
 import { useDispatch } from "react-redux"
-import { setRefresh } from "../../reduxActions"
+import { setRefresh } from "../state/reduxActions"
 
 
 export function ActionModal({type, data, showModal, setShowModal}) {

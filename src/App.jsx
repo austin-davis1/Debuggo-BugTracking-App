@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './assets/logo.svg';
 import './App.css';
 import {useEffect} from 'react'
 import {HashRouter as Router, Route, Routes, useNavigate} from "react-router-dom"
@@ -11,9 +11,9 @@ import NewProject from './pages/newProject';
 import { ManageUsers } from './pages/manageUsers';
 import { Projects } from './pages/Projects';
 import { UserProfile } from './pages/UserProfile';
-import {setRefresh, setLoading, setData, setProjects} from "../reduxActions"
+import {setRefresh, setLoading, setData, setProjects} from "./state/reduxActions"
 import {useSelector, useDispatch} from 'react-redux'
-import  { getAllTasks, getAllProjects }  from '../api/api.js'
+import  { getAllTasks, getAllProjects }  from './data/api.js'
 import { SiteLayout } from "./components/SiteLayout"
 
 

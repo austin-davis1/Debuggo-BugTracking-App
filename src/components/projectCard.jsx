@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useDispatch } from "react-redux";
-import { setModal, setDelete, setModalType} from "../../reduxActions"
+import { setModal, setDelete, setModalType} from "../state/reduxActions"
 import { useState, useEffect } from "react";
 import { ActionModal } from "./ActionModal";
 import { PercentBar } from "./PercentBar";

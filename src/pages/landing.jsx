@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { createUser, verifyUser, getUser } from "../../api/api"
+import { createUser, verifyUser, getUser } from "../data/api.js"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import Logo from "../SVGs/BUG_TRACKER.png"
+import Logo from "../assets/bug_tracker.png"
 
 export function Landing() {
 

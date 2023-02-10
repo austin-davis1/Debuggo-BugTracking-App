@@ -1,10 +1,10 @@
-import Card from "../components/card"
+import Card from "../components/Card"
 import { useSelector, useDispatch } from "react-redux"
-import { setModal, setRefresh } from "../../reduxActions"
-import { editTask, deleteTask } from "../../api/api"
+import { setModal, setRefresh } from "../state/reduxActions"
+import { editTask, deleteTask } from "../data/api.js"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link, useNavigate } from "react-router-dom";
-import { DashCard } from "../components/dashCard";
+import { DashCard } from "../components/DashCard";
 import { AdminView } from "../components/AdminView";
 import { TechView } from "../components/TechnicianView";
 

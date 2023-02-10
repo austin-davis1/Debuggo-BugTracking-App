@@ -2,7 +2,7 @@ import { ProjectCard } from "../components/projectCard"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { setRefresh, setModal } from "../../reduxActions"
-import { deleteProject, editProject } from "../../api/api"
+import { deleteProject, editProject } from "../data/api.js"
 
 export function Projects() {
 

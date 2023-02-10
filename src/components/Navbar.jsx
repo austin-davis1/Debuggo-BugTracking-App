@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { sideData, adminSideData } from "./sidebardata";
-import Logo from "../SVGs/BUG_TRACKER.png"
+import Logo from "../assets/bug_tracker.png"
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
