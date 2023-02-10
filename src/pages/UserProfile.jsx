@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { uploadFile, getFile } from "../data/storageService.js"
 import { updateUser } from "../../api/api.js"
 import picture from "../SVGs/no-profile-picture-icon.svg"
+import { ProfilePicture } from "../components/profilePic.jsx"
 
 export function UserProfile() {
 
@@ -85,8 +86,8 @@ export function UserProfile() {
     return (
         <div className="h-screen">
             <div className="flex h-86 mt-4">
-                <div className="h-full static w-64 rounded-full bg-white border-solid border-2 border-blue">
-                    <img src={photo} className="flex object-fill rounded-full justify-left"/> 
+                <div className="w-64">
+                    <ProfilePicture image={photo}/>
                 </div>
                 <div className="ml-48">
                     <h1 className="text-6xl text-blue">{userObj.username}</h1>
