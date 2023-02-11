@@ -61,46 +61,51 @@ export function ProjectCard({project}) {
         }
     }, [modalAction])
 
-    let dispatch = useDispatch()
-    let photoSrc = picture;
-
     useEffect(() => {
         async function retrieveAllProfilePictures() {
             let allTasks = await getAllTasks()
+            let allUsers = await getAllUsers()
             let projectUsers = []
+            let userIds = []
 
-            for (let task of allTasks) {
-                if (task.projectId == project._id) {
-                    for (let user of task.users) {
-                        if (!users.find((username) => username == user.username)) {
-                            setUsers(...users, user)
-                            projectUsers.push(user)
-                        }
+            for (let task of allTasks.filter((task) => task.projectId == project._id)) {
+                for (let user of task.users) {
+                    if (!projectUsers.find((projectUser) => projectUser.username == user.username)) {
+                        projectUsers.push(user)
                     }
                 }
             }
         
-            /*for (let user of getAllUsers) {
-                if(user.pictureID){
-                    photoSrc = await getFile(userObj.pictureID);
-                } 
-                setPhotos(...photos, photoSrc)
-            }*/
+            console.log("PROJECT USERS")
+            console.log(projectUsers)
+
+            for (let user of allUsers.filter((user) => projectUsers.find((projectUser) => user.username == projectUser.username))) {
+                userIds.push(user.pictureID)
+            }
+
+            console.log("USER IDS")
+            console.log(userIds)
+
+            let profilePhotos = []
+
+            for (let id of userIds) {
+                let photo
+                if (id != null) {
+                    photo = await getFile(id)
+                    profilePhotos.push(photo)
+                } else {
+                    photo = picture
+                    profilePhotos.push(photo)
+                }
+                
+                setPhotos(profilePhotos)
+                //setPhotos([...photos, photo])
+            }
+
         }
 
         retrieveAllProfilePictures()
     }, [])
-
-    /*useEffect(() => {
-        async function updatePhotos() {
-            for (let user of users) {
-                if (user.pictureID) {
-                    photoSrc = await getFile(user.pictureID);
-                }
-            }
-        }
-        updatePhotos()
-    }, [users])*/
 
     return (
         <>
@@ -132,6 +137,14 @@ export function ProjectCard({project}) {
                         <span className="text-2xl font-bold">Completed Tasks</span>
                         <span className="flex justify-center">{completedTasks?.length}/{totalTasks?.length}</span>
                     </div>
+                    {photos.length != 0 ?
+                    <div className="mx-4 flex flex-col self-center">
+                        <span className="text-2xl font-bold">Active Users</span>
+                        <ProfilePictureSection images={photos}/>                    
+                    </div>
+                    :
+                    <></>
+                    }
                 </div>
                 
             </Link>
