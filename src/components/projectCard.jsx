@@ -7,6 +7,10 @@ import { useState, useEffect } from "react";
 import { ActionModal } from "./ActionModal";
 import { PercentBar } from "./PercentBar";
 import { useSelector } from "react-redux";
+import { ProfilePictureSection } from "./ProfilePicSection";
+import picture from "../SVGs/no-profile-picture-icon.svg"
+import { getAllTasks, getAllUsers } from "../../api/api";
+import { getFile } from "../data/storageService";
 
 export function ProjectCard({project}) {
 
@@ -19,6 +23,8 @@ export function ProjectCard({project}) {
     const [totalTasks, setTotalTasks] = useState()
     const [completedTasks, setCompletedTasks] = useState()
     const [percentComplete, setPercentComplete] = useState()
+    const [photos, setPhotos] = useState([])
+    const [users, setUsers] = useState([])
 
     let allTasks = useSelector((state) => state.bugs.filter((bug) => bug.projectId == project._id))
     let finishedTasks = allTasks.filter((task) => task.status == 0)
@@ -56,18 +62,45 @@ export function ProjectCard({project}) {
     }, [modalAction])
 
     let dispatch = useDispatch()
+    let photoSrc = picture;
 
-    /*async function handleArchive() {
-        dispatch(setModal(true))
-        dispatch(setDelete(project._id))
-        dispatch(setModalType("Archive"))
-    }
+    useEffect(() => {
+        async function retrieveAllProfilePictures() {
+            let allTasks = await getAllTasks()
+            let projectUsers = []
 
-    async function handleDelete() {
-        dispatch(setModal(true))
-        dispatch(setDelete(project._id))
-        dispatch(setModalType("Delete"))
-    }*/
+            for (let task of allTasks) {
+                if (task.projectId == project._id) {
+                    for (let user of task.users) {
+                        if (!users.find((username) => username == user.username)) {
+                            setUsers(...users, user)
+                            projectUsers.push(user)
+                        }
+                    }
+                }
+            }
+        
+            /*for (let user of getAllUsers) {
+                if(user.pictureID){
+                    photoSrc = await getFile(userObj.pictureID);
+                } 
+                setPhotos(...photos, photoSrc)
+            }*/
+        }
+
+        retrieveAllProfilePictures()
+    }, [])
+
+    /*useEffect(() => {
+        async function updatePhotos() {
+            for (let user of users) {
+                if (user.pictureID) {
+                    photoSrc = await getFile(user.pictureID);
+                }
+            }
+        }
+        updatePhotos()
+    }, [users])*/
 
     return (
         <>
