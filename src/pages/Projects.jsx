@@ -3,8 +3,13 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { setRefresh, setModal } from "../../reduxActions"
 import { deleteProject, editProject } from "../../api/api"
+import { getAllFiles } from "../data/storageService"
+import { useEffect, useState } from "react"
 
 export function Projects() {
+
+    const [profilePictures, setProfilePictures] = useState([])
+    const [imagesLoaded, setImagesLoaded] = useState(false)
 
     let dispatch = useDispatch()
     let projects = useSelector(state => state.projects)
@@ -21,6 +26,21 @@ export function Projects() {
         dispatch(setModal(false))
     }
 
+    useEffect(() => {
+        async function retrieveProfilePictures() {
+            let allPictures = await getAllFiles()
+            setProfilePictures(allPictures)
+            setImagesLoaded(true)
+        }
+        if (profilePictures.length == 0) {
+            retrieveProfilePictures()
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log("PROFILE PICTURES IN PROJECTS PAGE STATE")
+        console.log(profilePictures)
+    }, [profilePictures])
 
     return (
         <div className="h-auto">
@@ -37,10 +57,17 @@ export function Projects() {
         </>
         :
         <div className="flex flex-col w-full">
-            {projects.map(project => <ProjectCard key={project._id} project={project}/>)}
+            <>
+            {imagesLoaded
+            ?
+                projects.map(project => <ProjectCard key={project._id} project={project} profilePictures={profilePictures}/>)
+            :
+                <></>
+            }
             <Link to="new_project" className = "flex justify-center bg-white border-solid border-2 border-black rounded-lg p-4 mt-6 mb-6 hover:bg-off-white cursor-pointer">
                 <h1 className="text-4xl justify-center">New Project</h1>
             </Link>
+            </>
         </div>
         }
     </div>

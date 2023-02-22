@@ -8,11 +8,11 @@ import { ActionModal } from "./ActionModal";
 import { PercentBar } from "./PercentBar";
 import { useSelector } from "react-redux";
 import { ProfilePictureSection } from "./ProfilePicSection";
-import picture from "../SVGs/no-profile-picture-icon.svg"
+import NoPicture from "../SVGs/no-profile-picture-icon.svg"
 import { getAllTasks, getAllUsers } from "../../api/api";
 import { getFile } from "../data/storageService";
 
-export function ProjectCard({project}) {
+export function ProjectCard({project, profilePictures}) {
 
     let url = `view_project/${project._id}`
 
@@ -63,7 +63,6 @@ export function ProjectCard({project}) {
 
     useEffect(() => {
         async function retrieveAllProfilePictures() {
-            let allTasks = await getAllTasks()
             let allUsers = await getAllUsers()
             let projectUsers = []
             let userIds = []
@@ -89,18 +88,20 @@ export function ProjectCard({project}) {
             let profilePhotos = []
 
             for (let id of userIds) {
-                let photo
-                if (id != null) {
-                    photo = await getFile(id)
-                    profilePhotos.push(photo)
+                if (id == null) {
+                    profilePhotos.push(NoPicture)
                 } else {
-                    photo = picture
-                    profilePhotos.push(photo)
+                    for (let picture of profilePictures) {
+                        if (id == picture.Key) {
+                            profilePhotos.push(picture.photo)
+                        } 
+                    }
                 }
-                
-                setPhotos(profilePhotos)
-                //setPhotos([...photos, photo])
             }
+            setPhotos(profilePhotos)
+            console.log("PHOTOS INSIDE OF PROJECTCARD COMPONENT")
+            console.log(profilePhotos)
+            //setPhotos([...photos, photo])
 
         }
 

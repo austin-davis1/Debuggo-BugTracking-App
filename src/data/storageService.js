@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
 
 /**
  * The AWS keys are loaded in code here just for the 
@@ -58,6 +58,45 @@ export async function getFile(fileName){
          * be in the format of "data:{contentType};base64,{base64String}"
          */
         return `data:${contentType};base64,${srcString}`;
+    }
+    catch(err){
+        console.log('Storage Service Error', err);
+    }
+}
+
+export async function getAllFiles() {
+    try{
+        const bucketParams = {
+            Bucket:s3Bucket
+        }
+
+        const response = await s3Client.send(new ListObjectsCommand(bucketParams));
+        //S3 returns the file as a readable stream. Transform the
+        //stream to a base64 string to be used as the image source. 
+        //const contentType = response.ContentType;
+        //const srcString = await response.Body?.transformToString('base64');
+
+        const responseBody = await response
+        const responseContents = responseBody.Contents
+        console.log(responseContents)
+
+        console.log("RESPONSE BODY")
+        console.log(responseBody)
+
+        let photo
+        
+        let returnImages = []
+        for (let image of responseContents) {
+            let photoObject = {}
+            photo = await getFile(image.Key)
+            photoObject.photo = photo
+            photoObject.key = image.Key
+            returnImages.push(photoObject)
+        }
+
+        console.log("RETURN IMAGES!!!!")
+        console.log(returnImages)
+        return returnImages;
     }
     catch(err){
         console.log('Storage Service Error', err);
