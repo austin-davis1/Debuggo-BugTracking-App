@@ -8,10 +8,10 @@ import { ActionModal } from "./ActionModal";
 import { PercentBar } from "./PercentBar";
 import { useSelector } from "react-redux";
 import { ProfilePictureSection } from "./ProfilePicSection";
-import NoPicture from "../SVGs/no-profile-picture-icon.svg"
-import { getAllTasks, getAllUsers } from "../../api/api";
+import NoPicture from "../assets/no_profile_picture.svg"
+import { getAllTasks, getAllUsers } from "../data/api";
 import { getFile } from "../data/storageService";
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "./LoadingIndicator"
 
 export function ProjectCard({project, profilePictures, profileUsers}) {
 

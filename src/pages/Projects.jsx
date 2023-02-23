@@ -1,11 +1,11 @@
 import { ProjectCard } from "../components/projectCard"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { setRefresh, setModal } from "../../reduxActions"
-import { deleteProject, editProject, getAllUsers } from "../../api/api"
+import { setRefresh, setModal } from "../state/reduxActions"
+import { deleteProject, editProject, getAllUsers } from "../data/api"
 import { getAllFiles } from "../data/storageService"
 import { useEffect, useState } from "react"
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "../components/LoadingIndicator"
 
 export function Projects() {
 
