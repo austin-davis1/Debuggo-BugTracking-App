@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { uploadFile, getFile } from "../data/storageService.js"
-import { updateUser } from "../data/api.js"
-import picture from "../assets/no_profile_picture.svg"
+import { updateUser } from "../../api/api.js"
+import picture from "../SVGs/no-profile-picture-icon.svg"
+import { ProfilePicture } from "../components/profilePic.jsx"
 
 export function UserProfile() {
 
@@ -11,6 +12,8 @@ export function UserProfile() {
     let userObj = JSON.parse(user)
     let joinDate = new Date(userObj.dateJoined)
     
+    const MAX_FILE_SIZE = 1000000
+
     /**
      * To get the shortened date you can also use
      * .toLocaleDateString('en-US'). 
@@ -31,10 +34,18 @@ export function UserProfile() {
                 //will ensure each user only has one profile picture stored on
                 //s3. 
                 
+                if (file.size > MAX_FILE_SIZE) {
+                    throw new Error("File size is too large.")
+                }
+
                 //Break the file name into pieces using .substring. We use 
                 //lastIndexOf instead of indexOf just in case the file name 
                 //has multiple periods. We only care about the last one. 
                 const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+
+                if (fileExtension != ".jpg") {
+                    throw new Error("Files must be .jpg")
+                }
                 const newFileName = `profile_${userObj._id}${fileExtension}`;
 
                 //The .name property on a File object is readonly, so we need to 
@@ -85,8 +96,8 @@ export function UserProfile() {
     return (
         <div className="h-screen">
             <div className="flex h-86 mt-4">
-                <div className="h-full static w-64 rounded-full bg-white border-solid border-2 border-blue">
-                    <img src={photo} className="flex object-fill rounded-full justify-left"/> 
+                <div className="w-64">
+                    <ProfilePicture image={photo}/>
                 </div>
                 <div className="ml-48">
                     <h1 className="text-6xl text-blue">{userObj.username}</h1>

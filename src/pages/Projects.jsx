@@ -1,10 +1,20 @@
 import { ProjectCard } from "../components/projectCard"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { setRefresh, setModal } from "../state/reduxActions.js"
-import { deleteProject, editProject } from "../data/api.js"
+import { setRefresh, setModal } from "../../reduxActions"
+import { deleteProject, editProject, getAllUsers } from "../../api/api"
+import { getAllFiles } from "../data/storageService"
+import { useEffect, useState } from "react"
+import { Loading } from "../SVGs/Dual Ring-1s-200px"
 
 export function Projects() {
+
+    const [profilePictures, setProfilePictures] = useState([])
+    const [imagesLoaded, setImagesLoaded] = useState(false)
+    const [users, setUsers] = useState([])
+    const [usersLoaded, setUsersLoaded] = useState(false)
+
+    const controller = new AbortController()
 
     let dispatch = useDispatch()
     let projects = useSelector(state => state.projects)
@@ -21,6 +31,29 @@ export function Projects() {
         dispatch(setModal(false))
     }
 
+    useEffect(() => {
+        async function retrieveProfilePictures() {
+            let allPictures = await getAllFiles()
+            setProfilePictures(allPictures)
+            setImagesLoaded(true)
+        }
+        async function retrieveAllUsers() {
+            let users = await getAllUsers(controller)
+            setUsers(users)
+            setUsersLoaded(true)
+        }
+        if (profilePictures.length == 0) {
+            retrieveProfilePictures()
+        }
+        if (users.length == 0) {
+            retrieveAllUsers()
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log("PROFILE PICTURES IN PROJECTS PAGE STATE")
+        console.log(profilePictures)
+    }, [profilePictures])
 
     return (
         <div className="h-auto">
@@ -37,10 +70,17 @@ export function Projects() {
         </>
         :
         <div className="flex flex-col w-full">
-            {projects.map(project => <ProjectCard key={project._id} project={project}/>)}
+            <>
+            {imagesLoaded && usersLoaded
+            ?
+                projects.map(project => <ProjectCard key={project._id} project={project} profilePictures={profilePictures} profileUsers={users}/>)
+            :
+                <><Loading/></>
+            }
             <Link to="new_project" className = "flex justify-center bg-white border-solid border-2 border-black rounded-lg p-4 mt-6 mb-6 hover:bg-off-white cursor-pointer">
                 <h1 className="text-4xl justify-center">New Project</h1>
             </Link>
+            </>
         </div>
         }
     </div>

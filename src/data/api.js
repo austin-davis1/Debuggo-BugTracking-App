@@ -143,8 +143,8 @@ export async function deleteProject(id) {
 /*********
  * Users
  *********/
-export async function getAllUsers(){
-    const response = await fetch(`http://localhost:5000/users/`)
+export async function getAllUsers(controller){
+    const response = await fetch(`http://localhost:5000/users/`, {signal: controller.signal})
 
     if (!response.ok) {
         const message = `An error ocured: ${response.statusText}`
