@@ -11,8 +11,9 @@ import { ProfilePictureSection } from "./ProfilePicSection";
 import NoPicture from "../SVGs/no-profile-picture-icon.svg"
 import { getAllTasks, getAllUsers } from "../../api/api";
 import { getFile } from "../data/storageService";
+import { Loading } from "../SVGs/Dual Ring-1s-200px"
 
-export function ProjectCard({project, profilePictures}) {
+export function ProjectCard({project, profilePictures, profileUsers}) {
 
     let url = `view_project/${project._id}`
 
@@ -28,8 +29,40 @@ export function ProjectCard({project, profilePictures}) {
 
     let allTasks = useSelector((state) => state.bugs.filter((bug) => bug.projectId == project._id))
     let finishedTasks = allTasks.filter((task) => task.status == 0)
+    let projectTasks = allTasks.filter((task) => task.projectId == project._id)
+    let projectUsers
+
+    function findUsersOnProject(tasks, users) {
+        let projectUsers = users.filter((user) => {
+            let userDictionary = {}
+            for (let task of tasks) {
+                for (let user of task.users) {
+                    if (!(user.username in userDictionary)) {
+                        userDictionary[user.username] = true
+                    }
+                }
+            }
+            return (user.username in userDictionary)
+        })
+        return projectUsers
+    }
 
     useEffect(() => {
+        async function setUserPictures() {
+            let projectImages = []
+            projectUsers = findUsersOnProject(projectTasks, profileUsers)
+
+            for (let user of projectUsers) {
+                let selectedPhoto = profilePictures.find((picture) => picture.key == user.pictureID)
+                if (selectedPhoto) {
+                    projectImages.push(selectedPhoto.photo)
+                } else {
+                    projectImages.push(NoPicture)
+                }
+            }
+            setPhotos(projectImages)
+        }
+        setUserPictures()
         setTotalTasks(allTasks)
         setCompletedTasks(finishedTasks)
         setPercentComplete((finishedTasks.length / allTasks.length) * 100)
@@ -61,53 +94,6 @@ export function ProjectCard({project, profilePictures}) {
         }
     }, [modalAction])
 
-    useEffect(() => {
-        async function retrieveAllProfilePictures() {
-            let allUsers = await getAllUsers()
-            let projectUsers = []
-            let userIds = []
-
-            for (let task of allTasks.filter((task) => task.projectId == project._id)) {
-                for (let user of task.users) {
-                    if (!projectUsers.find((projectUser) => projectUser.username == user.username)) {
-                        projectUsers.push(user)
-                    }
-                }
-            }
-        
-            console.log("PROJECT USERS")
-            console.log(projectUsers)
-
-            for (let user of allUsers.filter((user) => projectUsers.find((projectUser) => user.username == projectUser.username))) {
-                userIds.push(user.pictureID)
-            }
-
-            console.log("USER IDS")
-            console.log(userIds)
-
-            let profilePhotos = []
-
-            for (let id of userIds) {
-                if (id == null) {
-                    profilePhotos.push(NoPicture)
-                } else {
-                    for (let picture of profilePictures) {
-                        if (id == picture.Key) {
-                            profilePhotos.push(picture.photo)
-                        } 
-                    }
-                }
-            }
-            setPhotos(profilePhotos)
-            console.log("PHOTOS INSIDE OF PROJECTCARD COMPONENT")
-            console.log(profilePhotos)
-            //setPhotos([...photos, photo])
-
-        }
-
-        retrieveAllProfilePictures()
-    }, [])
-
     return (
         <>
         {showModal && <ActionModal type={modalType} data={selectedData} showModal={showModal} setShowModal={setShowModal}/>}
@@ -138,13 +124,13 @@ export function ProjectCard({project, profilePictures}) {
                         <span className="text-2xl font-bold">Completed Tasks</span>
                         <span className="flex justify-center">{completedTasks?.length}/{totalTasks?.length}</span>
                     </div>
-                    {photos.length != 0 ?
+                    {photos.length != 0 || projectUsers?.length != 0 ?
                     <div className="mx-4 flex flex-col self-center">
                         <span className="text-2xl font-bold">Active Users</span>
                         <ProfilePictureSection images={photos}/>                    
                     </div>
                     :
-                    <></>
+                    <><Loading/></>
                     }
                 </div>
                 

@@ -12,6 +12,8 @@ export function UserProfile() {
     let userObj = JSON.parse(user)
     let joinDate = new Date(userObj.dateJoined)
     
+    const MAX_FILE_SIZE = 1000000
+
     /**
      * To get the shortened date you can also use
      * .toLocaleDateString('en-US'). 
@@ -32,10 +34,18 @@ export function UserProfile() {
                 //will ensure each user only has one profile picture stored on
                 //s3. 
                 
+                if (file.size > MAX_FILE_SIZE) {
+                    throw new Error("File size is too large.")
+                }
+
                 //Break the file name into pieces using .substring. We use 
                 //lastIndexOf instead of indexOf just in case the file name 
                 //has multiple periods. We only care about the last one. 
                 const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+
+                if (fileExtension != ".jpg") {
+                    throw new Error("Files must be .jpg")
+                }
                 const newFileName = `profile_${userObj._id}${fileExtension}`;
 
                 //The .name property on a File object is readonly, so we need to 
