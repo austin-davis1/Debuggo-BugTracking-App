@@ -20,11 +20,6 @@ export function BarGraph({labels, data, title}) {
 
     useEffect(() => {
         setShowChart(true);
-        console.log("BAR OPTIONS")
-        console.log(options)
-
-        console.log("BAR SERIES")
-        console.log(series)
     },[series, options])
 
     return (

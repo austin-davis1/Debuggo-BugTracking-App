@@ -19,8 +19,6 @@ import { SiteLayout } from "./components/SiteLayout"
 
 
 function App() {
-
-  
   let dispatch = useDispatch()
 
   useEffect(() => {

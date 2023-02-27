@@ -15,6 +15,7 @@ export function Projects() {
     const [usersLoaded, setUsersLoaded] = useState(false)
 
     const controller = new AbortController()
+    const awsController = new AbortController();
 
     let dispatch = useDispatch()
     let projects = useSelector(state => state.projects)
@@ -33,7 +34,7 @@ export function Projects() {
 
     useEffect(() => {
         async function retrieveProfilePictures() {
-            let allPictures = await getAllFiles()
+            let allPictures = await getAllFiles(awsController)
             setProfilePictures(allPictures)
             setImagesLoaded(true)
         }
@@ -42,18 +43,15 @@ export function Projects() {
             setUsers(users)
             setUsersLoaded(true)
         }
-        if (profilePictures.length == 0) {
-            retrieveProfilePictures()
+        retrieveProfilePictures()
+        retrieveAllUsers()
+        
+        return () =>  {
+            controller.abort()
+            awsController.abort()
         }
-        if (users.length == 0) {
-            retrieveAllUsers()
-        }
-    }, [])
 
-    useEffect(() => {
-        console.log("PROFILE PICTURES IN PROJECTS PAGE STATE")
-        console.log(profilePictures)
-    }, [profilePictures])
+    }, [])
 
     return (
         <div className="h-auto">

@@ -1,8 +1,6 @@
 import { ProfilePicture } from "./profilePic"
 
 export function ProfilePictureSection({images}) {
-    console.log("IMAGES INSIDE COMP")
-    console.log(images)
     return (
         <>
             <div className="flex flex-row mx--2 w-96 h-16">

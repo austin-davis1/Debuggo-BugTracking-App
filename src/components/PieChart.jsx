@@ -7,9 +7,6 @@ export function PieChart({pieOptions, title}) {
     const [options, setOptions] = useState({})
     const [series, setSeries] = useState([])
     const [showChart, setShowChart] = useState(false);
-
-    console.log("Pie Options Object")
-    console.log(pieOptions)
  
     useEffect(() => {
         setOptions({
