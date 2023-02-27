@@ -62,7 +62,7 @@ export default function Navbar() {
             <div className="h-screen flex flex-col overflow-y-auto bg-blue-gray w-72 fixed top-0">
                 <ul className="w-full">
                     <div className="h-52 mb-3 mt-3 w-full flex justify-center align-center">
-                        <img src={Logo} alt="logo"/>
+                        <img src={Logo} alt="logo" className="rounded-lg"/>
                     </div>
                     <div className="border-solid border-white border-2 rounded-full m-2"/>
 
