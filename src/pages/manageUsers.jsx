@@ -33,7 +33,7 @@ export function ManageUsers() {
                     <div>
                         {users.map((user) => {
                             return (
-                                <UserTag user={user}/>
+                                <UserTag user={user} key={user._id}/>
                             )
                         })}
                     </div>

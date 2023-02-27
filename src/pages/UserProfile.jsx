@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { uploadFile, getFile } from "../data/storageService.js"
+import { uploadFile, getFile, deleteFile } from "../data/storageService.js"
 import { updateUser } from "../../api/api.js"
 import picture from "../SVGs/no-profile-picture-icon.svg"
 import { ProfilePicture } from "../components/profilePic.jsx"
@@ -59,6 +59,12 @@ export function UserProfile() {
                 //TODO: Show the user some type of "working" modal
                 //while the file is being uploaded and the user object
                 //is updated.
+
+                //Delete the old profile picture
+                //if (file.name.substring(file.name.lastIndexOf('.') == "")
+                await deleteFile(newFileName)
+                console.log("Old file has been deleted.")
+
                 await uploadFile(newFile);
                 console.log("FILE HAS BEEN UPLOADED!!!");
 

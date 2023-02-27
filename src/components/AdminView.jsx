@@ -173,7 +173,7 @@ export function AdminView() {
                             <div className="grid grid-cols-2">
                                 {allTags.map((tag) => {
                                     return (
-                                        <>
+                                        <div key={tag}>
                                             <div className="justify-between">
                                                 <span className="m-2">{tag}</span>
                                                 <div className="flex flex-row">
@@ -182,7 +182,7 @@ export function AdminView() {
                                                 </div>
                                                 
                                             </div>
-                                        </>
+                                        </div>
                                     )
                                 })}
                             </div>

@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 
 /**
  * The AWS keys are loaded in code here just for the 
@@ -40,14 +40,14 @@ export async function uploadFile(file){
  * @param {string} fileName - The name of the image you want to
  * download.  
  */
-export async function getFile(fileName){
+export async function getFile(fileName, abortController){
     try{
         const bucketParams = {
             Bucket:s3Bucket,
             Key:fileName
         }
 
-        const response = await s3Client.send(new GetObjectCommand(bucketParams));
+        const response = await s3Client.send(new GetObjectCommand(bucketParams), {abortSignal: abortController?.signal});
         //S3 returns the file as a readable stream. Transform the
         //stream to a base64 string to be used as the image source. 
         const contentType = response.ContentType;
@@ -58,6 +58,26 @@ export async function getFile(fileName){
          * be in the format of "data:{contentType};base64,{base64String}"
          */
         return `data:${contentType};base64,${srcString}`;
+    }
+    catch(err){
+        console.log('Storage Service Error', err);
+    }
+}
+
+/**
+ * Get a file from the debuggo S3 bucket
+ * @param {string} fileName - The name of the image you want to
+ * download.  
+ */
+export async function deleteFile(fileName){
+    try{
+        const bucketParams = {
+            Bucket:s3Bucket,
+            Key:fileName
+        }
+
+        const response = await s3Client.send(new DeleteObjectCommand(bucketParams));
+        return response
     }
     catch(err){
         console.log('Storage Service Error', err);
@@ -76,7 +96,7 @@ export async function getAllFiles(abortController) {
         //const contentType = response.ContentType;
         //const srcString = await response.Body?.transformToString('base64');
 
-        const responseBody = await response
+        const responseBody = response
         const responseContents = responseBody.Contents
 
         let photo
@@ -84,13 +104,12 @@ export async function getAllFiles(abortController) {
         let returnImages = []
         for (let image of responseContents) {
             let photoObject = {}
-            photo = await getFile(image.Key)
+            photo = await getFile(image.Key, abortController)
             photoObject.photo = photo
             photoObject.key = image.Key
             returnImages.push(photoObject)
         }
-
-        console.log("RETURN IMAGES!!!!")
+        console.log("Return Images")
         console.log(returnImages)
         return returnImages;
     }

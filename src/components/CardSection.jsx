@@ -5,21 +5,25 @@ import { useSelector } from "react-redux"
 import { Loading } from "../SVGs/Dual Ring-1s-200px"
 
 export function CardSection({cards}) {
-    const [filter, setFilter] = useState("Urgent")
+    const [filter, setFilter] = useState("")
     const [selectedTasks, setSelectedTasks] = useState([])
     const [loadingTasks, setLoadingTasks] = useState(false)
     
     useEffect(() => {
         setLoadingTasks(true)
-        setSelectedTasks(cards.filter((card) => card.tags.find((tag) => tag == filter && card.status == 1)))
+        if (filter.length > 0) {
+            setSelectedTasks(cards.filter((card) => card.tags.find((tag) => tag == filter && card.status == 1)))
+        } else {
+            setSelectedTasks(cards)
+        }
         setLoadingTasks(false)
     }, [filter])
 
     return (
-        <div className="flex flex-col w-auto h-auto rounded-lg p-4 m-4">
-            <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col w-auto h-auto rounded-lg p-2">
+            <div className="flex flex-row items-center justify-between mb-4">
                 <div className="flex flex-row ml-4">
-                    <span className="text-4xl font-bold">View Tasks</span>
+                    <span className="text-3xl font-bold">View Tasks</span>
                 </div>
                 <div className="flex flex-row items-center">
                     <span className="mr-4 ml-4 text-2xl">Filter: </span>
