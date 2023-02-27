@@ -38,7 +38,6 @@ export function UserSection() {
             options.yaxis = {reversed: true}
             options.grid = {yaxis: {lines: {show: false}}}
             options.chart = {toolbar: {show: false}, height: 100}
-            console.log(options)
 
             setBarOptions(options)
 
@@ -53,8 +52,6 @@ export function UserSection() {
             setShowChart(true)
         }
     }, [barOptions, barSeries])
-
-    console.log(userMap)
 
     return (
         <>

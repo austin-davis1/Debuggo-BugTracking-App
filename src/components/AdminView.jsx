@@ -132,11 +132,6 @@ export function AdminView() {
     useEffect(() => {
         if (barLabels.length > 0 && barData.length > 0) {
             setBarLoaded(true)
-            console.log("BAR DATA")
-            console.log(barData)
-
-            console.log("BAR LABELS")
-            console.log(barLabels)
         }
     }, [barData, barLabels])
 

@@ -64,13 +64,13 @@ export async function getFile(fileName){
     }
 }
 
-export async function getAllFiles() {
+export async function getAllFiles(abortController) {
     try{
         const bucketParams = {
             Bucket:s3Bucket
         }
 
-        const response = await s3Client.send(new ListObjectsCommand(bucketParams));
+        const response = await s3Client.send(new ListObjectsCommand(bucketParams), {abortSignal: abortController.signal});
         //S3 returns the file as a readable stream. Transform the
         //stream to a base64 string to be used as the image source. 
         //const contentType = response.ContentType;
@@ -78,10 +78,6 @@ export async function getAllFiles() {
 
         const responseBody = await response
         const responseContents = responseBody.Contents
-        console.log(responseContents)
-
-        console.log("RESPONSE BODY")
-        console.log(responseBody)
 
         let photo
         

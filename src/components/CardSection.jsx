@@ -15,9 +15,6 @@ export function CardSection({cards}) {
         setLoadingTasks(false)
     }, [filter])
 
-    //setLoadingTasks(false)
-    console.log(selectedTasks)
-
     return (
         <div className="flex flex-col w-auto h-auto rounded-lg p-4 m-4">
             <div className="flex flex-row items-center justify-between">
