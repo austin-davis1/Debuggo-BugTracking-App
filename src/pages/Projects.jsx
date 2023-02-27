@@ -6,8 +6,6 @@ import { deleteProject, editProject, getAllUsers } from "../../api/api"
 import { getAllFiles } from "../data/storageService"
 import { useEffect, useState } from "react"
 import { Loading } from "../SVGs/Dual Ring-1s-200px"
-import { AbortController as awsAbortController } from "@aws-sdk/abort-controller"
-import { useLocation } from 'react-router-dom'
 
 export function Projects() {
 
