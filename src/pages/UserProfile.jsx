@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { uploadFile, getFile, deleteFile } from "../data/storageService.js"
-import { updateUser } from "../../api/api.js"
-import picture from "../SVGs/no-profile-picture-icon.svg"
+import { updateUser } from "../data/api.js"
+import picture from "../assets/no_profile_picture.svg"
+
 import { ProfilePicture } from "../components/profilePic.jsx"
 
 export function UserProfile() {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { createProject} from "../../api/api"
+import { createProject} from "../data/api.js"
 import { useDispatch } from "react-redux"
-import { setRefresh } from "../../reduxActions"
+import { setRefresh } from "../state/reduxActions"
 import { Link, useNavigate } from "react-router-dom"
 
 export default function NewProject() {

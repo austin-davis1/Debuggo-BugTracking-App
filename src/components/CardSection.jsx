@@ -1,8 +1,8 @@
-import Card from "./card"
+import Card from "./Card"
 import { useState, useEffect } from "react"
 import { allTags } from "./allTags"
 import { useSelector } from "react-redux"
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "./LoadingIndicator"
 
 export function CardSection({cards}) {
     const [filter, setFilter] = useState("")

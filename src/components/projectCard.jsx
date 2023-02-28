@@ -2,16 +2,16 @@ import { Link } from "react-router-dom"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useDispatch } from "react-redux";
-import { setModal, setDelete, setModalType} from "../../reduxActions"
+import { setModal, setDelete, setModalType} from "../state/reduxActions"
 import { useState, useEffect } from "react";
 import { ActionModal } from "./ActionModal";
 import { PercentBar } from "./PercentBar";
 import { useSelector } from "react-redux";
 import { ProfilePictureSection } from "./ProfilePicSection";
-import NoPicture from "../SVGs/no-profile-picture-icon.svg"
-import { getAllTasks, getAllUsers } from "../../api/api";
+import NoPicture from "../assets/no_profile_picture.svg"
+import { getAllTasks, getAllUsers } from "../data/api";
 import { getFile } from "../data/storageService";
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "./LoadingIndicator"
 
 export function ProjectCard({project, profilePictures, profileUsers}) {
 

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { UserSection } from "./UserSection"
 import { BarGraph } from "./BarGraph"
 import { PieChart } from "./PieChart"
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "./LoadingIndicator"
 import { CollectionsBookmarkOutlined } from "@mui/icons-material"
 import { PercentBar } from "./PercentBar"
 

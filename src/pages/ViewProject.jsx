@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import Card from "../components/card"
+import Card from "../components/Card"
 import { Link } from "react-router-dom"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { deleteTask, editTask } from "../../api/api";
+import { deleteTask, editTask } from "../data/api.js";
 import { useState, useEffect } from "react";
 import { ActionModal } from "../components/ActionModal";
 
-import { setModal, setRefresh } from "../../reduxActions";
+import { setModal, setRefresh } from "../state/reduxActions";
 
 export default function ViewProject() {
     let dispatch = useDispatch()

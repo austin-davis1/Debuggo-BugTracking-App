@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { editTask, getAllUsers } from "../../api/api";
+import { editTask, getAllUsers } from "../data/api.js";
 import { useDispatch } from "react-redux";
-import { setRefresh } from "../../reduxActions";
+import { setRefresh } from "../state/reduxActions.js";
 import { TagButton } from "../components/tagButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { allTags } from "../components/allTags";

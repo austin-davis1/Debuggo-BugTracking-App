@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
-import { deleteTask } from "../../api/api"
-import { setRefresh, setModal, setDelete, setModalType } from "../../reduxActions"
+import { deleteTask } from "../data/api.js"
+import { setRefresh, setModal, setDelete, setModalType } from "../state/reduxActions"
 import { useDispatch } from "react-redux"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-import { TagButton } from "./tagButton";
+import { TagButton } from "./TagButton";
 import { ActionModal } from "./ActionModal";
 import { useState, useEffect } from "react";
 

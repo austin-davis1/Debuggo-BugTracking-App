@@ -1,6 +1,6 @@
-import { getAllTasks, getAllUsers } from "../../api/api"
+import { getAllTasks, getAllUsers } from "../data/api.js"
 import { useEffect, useState } from "react"
-import { Loading } from "../SVGs/Dual Ring-1s-200px"
+import { Loading } from "./LoadingIndicator"
 import Chart from "react-apexcharts"
 import { CollectionsBookmarkOutlined } from "@mui/icons-material"
 

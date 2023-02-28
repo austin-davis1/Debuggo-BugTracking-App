@@ -1,4 +1,4 @@
-import { getAllUsers } from "../../api/api"
+import { getAllUsers } from "../data/api.js"
 import { useEffect, useState } from "react"
 import { UserTag } from "../components/userTag"
 

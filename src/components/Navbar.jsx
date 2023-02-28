@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { sideData, adminSideData } from "./sidebardata";
-import Logo from "../SVGs/BUG_TRACKER.png"
+import Logo from "../assets/bug_tracker.png"
 import { useSelector } from "react-redux";
-import picture from "../SVGs/no-profile-picture-icon.svg"
+import picture from "../assets/no_profile_picture.svg"
 import { useState, useEffect } from "react";
 import { ProfilePicture } from "./profilePic";
 import { getFile } from "../data/storageService";
