@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { setLoading } from "../state/reduxActions"
 
-export function PieChart({pieOptions, title}) {
+export function PieChart({pieOptions, title, colors}) {
     const [options, setOptions] = useState({})
     const [series, setSeries] = useState([])
     const [showChart, setShowChart] = useState(false);
@@ -12,7 +12,8 @@ export function PieChart({pieOptions, title}) {
         setOptions({
             ...options,
             chart: {width: 380, type: {type: "pie"}},
-            labels: pieOptions.labels
+            labels: pieOptions.labels,
+            colors: colors
         })
         setSeries(pieOptions.data)
     }, [])

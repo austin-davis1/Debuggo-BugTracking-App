@@ -4,7 +4,7 @@ import { Loading } from "./LoadingIndicator"
 import Chart from "react-apexcharts"
 import { CollectionsBookmarkOutlined } from "@mui/icons-material"
 
-export function UserSection() {
+export function UserSection({colors}) {
     const [userMap, setUserMap] = useState({})
     const [loadingUsers, setLoadingUsers] = useState(true)
     const [barOptions, setBarOptions] = useState({})
@@ -33,6 +33,9 @@ export function UserSection() {
             setBarSeries(series)
 
             let options = {}
+            if (colors) {
+                options.colors = colors
+            }
             options.plotOptions = {bar: {horizontal: true}}
             options.xaxis = {categories: Object.keys(freqMap)}
             options.yaxis = {reversed: true}
@@ -64,7 +67,7 @@ export function UserSection() {
                     <h1 className="text-3xl font-bold m-2">Tasks Per User</h1>
                     {showChart 
                     ?
-                    <Chart height="300" options={barOptions} series={barSeries} type="bar"/>
+                    <Chart height="300" options={barOptions} series={barSeries} colors={colors} type="bar"/>
                     :
                     <></>
                     }

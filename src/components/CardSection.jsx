@@ -8,7 +8,8 @@ export function CardSection({cards}) {
     const [filter, setFilter] = useState("")
     const [selectedTasks, setSelectedTasks] = useState([])
     const [loadingTasks, setLoadingTasks] = useState(false)
-    
+    const MAX_TASKS = 3
+
     useEffect(() => {
         setLoadingTasks(true)
         if (filter.length > 0) {
@@ -20,8 +21,8 @@ export function CardSection({cards}) {
     }, [filter])
 
     return (
-        <div className="flex flex-col w-auto h-auto rounded-lg p-2">
-            <div className="flex flex-row items-center justify-between mb-4">
+        <div className="flex flex-col w-full h-full rounded-lg p-2">
+            <div className="flex flex-row items-center justify-between mb-1">
                 <div className="flex flex-row ml-4">
                     <span className="text-3xl font-bold">View Tasks</span>
                 </div>
@@ -38,7 +39,7 @@ export function CardSection({cards}) {
             </div>
             {!loadingTasks ?
             <div className="flex flex-col">
-                {selectedTasks?.slice(0,4)?.map((card) => {
+                {selectedTasks?.slice(0,MAX_TASKS)?.map((card) => {
                     return (
                         <Card issue={card} key={card._id}/>
                     )

@@ -1,7 +1,7 @@
 import Chart from "react-apexcharts"
 import { useState, useEffect } from "react"
 
-export function BarGraph({labels, data, title}) {
+export function BarGraph({labels, data, title, colors}) {
     const [options, setOptions] = useState()
     const [series, setSeries] = useState()
     const [showChart, setShowChart] = useState(false);
@@ -10,6 +10,10 @@ export function BarGraph({labels, data, title}) {
         let option = {}
         option.chart = {id: "basic-bar"}
         option.xaxis = {categories: labels}
+        if (colors) {
+            option.fill = {}
+            option.fill.colors = colors
+        }
         setOptions(option)
 
         let serie = [{}]
