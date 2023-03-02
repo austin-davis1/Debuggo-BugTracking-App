@@ -2,6 +2,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import ConstructionIcon from '@mui/icons-material/Construction'
 import PersonIcon from '@mui/icons-material/Person'
 import GroupIcon from '@mui/icons-material/Group';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const sideData = [
     {
@@ -13,6 +14,11 @@ export const sideData = [
         title: "Projects",
         path: "/projects",
         icon: <ConstructionIcon/>
+    },
+    {
+        title: "Your Tasks",
+        path: "/your_tasks",
+        icon: <AssignmentIcon/>
     },
     {
         title: "User Profile",
@@ -31,6 +37,11 @@ export const adminSideData = [
         title: "Projects",
         path: "/projects",
         icon: <ConstructionIcon/>
+    },
+    {
+        title: "Your Tasks",
+        path: "/your_tasks",
+        icon: <AssignmentIcon/>
     },
     {
         title: "User Profile",

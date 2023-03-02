@@ -15,6 +15,8 @@ import {setRefresh, setLoading, setData, setProjects} from "./state/reduxActions
 import {useSelector, useDispatch} from 'react-redux'
 import  { getAllTasks, getAllProjects }  from './data/api.js'
 import { SiteLayout } from "./components/SiteLayout"
+import { YourTasks } from './pages/YourTasks';
+import { UserTasks } from './pages/UserTasks';
 
 
 
@@ -52,6 +54,8 @@ function App() {
           <Route path="/projects/view_project/:projectId/view_task/:taskId" element = {<ViewTask/>}/>
           <Route path="/user_profile" element={<UserProfile/>}/>
           <Route path="/manage_users" element={<ManageUsers/>}/>
+          <Route path="/your_tasks" element={<YourTasks/>}/>
+          <Route path="/user_tasks/:userId" element={<UserTasks/>}/>
         </Route>
       </Routes>
     </Router>

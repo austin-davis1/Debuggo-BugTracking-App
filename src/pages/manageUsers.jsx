@@ -1,6 +1,7 @@
 import { getAllUsers } from "../data/api.js"
 import { useEffect, useState } from "react"
 import { UserTag } from "../components/userTag"
+import { Link } from "react-router-dom"
 
 export function ManageUsers() {
 
@@ -33,7 +34,10 @@ export function ManageUsers() {
                     <div>
                         {users.map((user) => {
                             return (
-                                <UserTag user={user} key={user._id}/>
+                                <>
+                                    <UserTag user={user} key={user._id}/>
+                                    
+                                </>
                             )
                         })}
                     </div>

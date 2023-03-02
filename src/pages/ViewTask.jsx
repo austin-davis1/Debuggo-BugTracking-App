@@ -8,6 +8,7 @@ import { setRefresh } from "../state/reduxActions.js";
 import { TagButton } from "../components/tagButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { allTags } from "../components/allTags";
+import { BackButton } from "../components/BackButton.jsx";
 
 export default function ViewTask() {
     let { taskId } = useParams();
@@ -191,9 +192,7 @@ export default function ViewTask() {
 
     return (
         <div className="h-auto">
-            <Link to={`/projects/view_project/${projectId}`}>
-                <button className="bg-white mt-5 w-32 h-12 hover:border-4 rounded-lg hover:border-black hover:bg-blue hover:text-white">Back</button>
-            </Link>
+            <BackButton/>
             <div className = "flex flex-col mt-10 rounded-lg">
                 {!edit
                 ?

@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 
 export function UserTag({user}) {
     return (
@@ -7,6 +7,7 @@ export function UserTag({user}) {
             <div>{user.name}</div>
             <div>{user.authorizations[0]}</div>
             <div>{user.email}</div>
+            <Link to={`/user_tasks/${user._id}`}>View User Tasks</Link>
         </div>
     )
 }

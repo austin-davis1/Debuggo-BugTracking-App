@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { deleteTask, editTask } from "../data/api.js";
 import { useState, useEffect } from "react";
 import { ActionModal } from "../components/ActionModal";
+import { BackButton } from "../components/BackButton";
 
 import { setModal, setRefresh } from "../state/reduxActions";
 
@@ -28,31 +29,6 @@ export default function ViewProject() {
     let projectData = allProjects.find((project) => project._id === projectId )
     let allTasks = useSelector(state => state.bugs.filter((bug) => bug.projectId == projectId))
 
-    /*async function handleEvent(id) {
-        let data = allTasks.find(task => task._id == id)
-        let type = {}
-
-        if (modalType == "Delete") {
-            //await deleteTask(id)
-            type.title = "Delete Task"
-            type.message = "Are you sure you want to delete this task? If you delete it, it will be deleted from your history forever."
-            type.action = "DeleteTask"
-        } else {
-            //data.completedBy = userObj.username 
-            //await editTask(id, data, 0)
-            type.title = "Mark as completed"
-            type.message = "Are you sure you want to mark this task as complete? You can always revert later if you change your mind."
-            type.action = "ArchiveTask"
-        }
-
-        //modalType == "Delete" ? await deleteTask(id) : await editTask(id, data, 0)
-        setModalType(type)
-        setShowModal(true)
-        setSelectedData(data)
-        dispatch(setRefresh(true))
-        dispatch(setModal(false))
-    }*/
-
     console.log(projectData)
 
     return (
@@ -61,7 +37,7 @@ export default function ViewProject() {
         ?
         <>
             <>
-            <Link to="/projects" className="flex justify-center items-center bg-white mt-5 w-32 h-12 hover:border-4 rounded-lg hover:border-black hover:bg-blue hover:text-white">Back</Link>
+            <BackButton/>
             <div className="flex mt-8">
                 <h1 className="flex w-full text-blue mb-10 rounded-lg text-7xl font-bold justify-left">{projectData.title}</h1>
             </div>

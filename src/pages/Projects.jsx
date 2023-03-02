@@ -8,7 +8,6 @@ import { useEffect, useState } from "react"
 import { Loading } from "../components/LoadingIndicator"
 
 export function Projects() {
-
     const [profilePictures, setProfilePictures] = useState([])
     const [imagesLoaded, setImagesLoaded] = useState(false)
     const [users, setUsers] = useState([])
