@@ -66,9 +66,11 @@ export default function ViewTask() {
     const [loadingUsers, setLoadingUsers] = useState(true)
     const [usersS, setUsers] = useState([])
 
+    const controller = new AbortController()
+
     useEffect(() => {
         async function pullUsers() {
-            let allUsers = await getAllUsers()
+            let allUsers = await getAllUsers(controller)
             setLoadingUsers(true)
             setUsers(allUsers)
         }
