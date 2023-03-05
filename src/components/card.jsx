@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { deleteTask } from "../data/api.js"
 import { setRefresh, setModal, setDelete, setModalType } from "../state/reduxActions"
 import { useDispatch } from "react-redux"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';

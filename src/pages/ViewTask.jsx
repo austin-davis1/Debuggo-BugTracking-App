@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { editTask, getAllUsers } from "../data/api.js";
+import { getAllUsers } from "../data/userData.js";
+import { updateTask } from "../data/taskData.js"
 import { useDispatch } from "react-redux";
 import { setRefresh } from "../state/reduxActions.js";
 import { TagButton } from "../components/tagButton";
@@ -136,8 +137,9 @@ export default function ViewTask() {
             object.lastUpdated = new Date()
             object.comments = comments
             object.users = data.users
+            object.status = 1
 
-            editTask(data._id, object, 1)
+            updateTask(object)
             dispatch(setRefresh(true))
             setEdit(false)
         }

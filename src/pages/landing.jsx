@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { createUser, verifyUser, getUser } from "../data/api.js"
+import { getUserById, verifyUser, createUser } from '../data/userData.js'
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import Logo from "../assets/bug_tracker.png"
@@ -38,7 +38,7 @@ export function Landing() {
         if (email == "" || password == "") {
             setFormError(true)
         } else {
-            let userObject ={}
+            let userObject = { }
             userObject.email = email
             userObject.password = password
             let response = await verifyUser(userObject)
@@ -53,7 +53,7 @@ export function Landing() {
         }
     }
 
-    function handleCreation() {
+    async function handleCreation() {
         if (userCreate == "" || emailCreate == "" || passwordCreate == "") {
             setFormError(true)
         } else {
@@ -65,7 +65,10 @@ export function Landing() {
             userObj.dateJoined = new Date()
             userObj.authorizations = ["User"]
             userObj.assignedTasks = []
-            if (createUser(userObj)){
+
+            const newUser = await createUser(userObj);
+
+            if (newUser){
                 setCreate(false)
             } else{
                 setError(true)

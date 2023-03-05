@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import Card from "../components/Card"
-import { getAllUsers } from "../data/api"
+import { getAllUsers } from "../data/userData.js"
 import { useParams } from "react-router-dom"
 
 export function UserTasks() {

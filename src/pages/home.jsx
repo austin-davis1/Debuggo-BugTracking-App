@@ -1,7 +1,6 @@
 import Card from "../components/Card"
 import { useSelector, useDispatch } from "react-redux"
 import { setModal, setRefresh } from "../state/reduxActions"
-import { editTask, deleteTask } from "../data/api.js"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link, useNavigate } from "react-router-dom";
 import { DashCard } from "../components/DashCard";

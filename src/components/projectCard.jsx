@@ -9,7 +9,8 @@ import { PercentBar } from "./PercentBar";
 import { useSelector } from "react-redux";
 import { ProfilePictureSection } from "./ProfilePicSection";
 import NoPicture from "../assets/no_profile_picture.svg"
-import { getAllTasks, getAllUsers } from "../data/api";
+import { getAllTasks } from "../data/taskData.js";
+import { getAllUsers } from "../data/userData.js"
 import { getFile } from "../data/storageService";
 import { Loading } from "./LoadingIndicator"
 

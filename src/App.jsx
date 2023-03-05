@@ -1,24 +1,27 @@
-import logo from './assets/logo.svg';
 import './App.css';
+
 import {useEffect} from 'react'
-import {HashRouter as Router, Route, Routes, useNavigate} from "react-router-dom"
+import {HashRouter as Router, Route, Routes } from "react-router-dom"
+import {setRefresh, setLoading, setData, setProjects} from "./state/reduxActions"
+import {useSelector, useDispatch} from 'react-redux'
+
+import { getAllTasks } from './data/taskData.js'
+import { getAllProjects } from './data/projectData.js'
+
+import { SiteLayout } from "./components/SiteLayout"
+
 import Home from './pages/home';
 import { Landing } from './pages/landing';
 import ViewTask from './pages/ViewTask';
 import ViewProject from './pages/ViewProject';
 import NewIssue from './pages/newIssue';
 import NewProject from './pages/newProject';
-import { ManageUsers } from './pages/manageUsers';
+import { ManageUsers } from './pages/ManageUsers';
 import { Projects } from './pages/Projects';
 import { UserProfile } from './pages/UserProfile';
-import {setRefresh, setLoading, setData, setProjects} from "./state/reduxActions"
-import {useSelector, useDispatch} from 'react-redux'
-import  { getAllTasks, getAllProjects }  from './data/api.js'
-import { SiteLayout } from "./components/SiteLayout"
+
 import { YourTasks } from './pages/YourTasks';
 import { UserTasks } from './pages/UserTasks';
-
-
 
 function App() {
   let dispatch = useDispatch()

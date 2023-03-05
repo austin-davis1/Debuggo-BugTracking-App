@@ -1,4 +1,4 @@
-import { getAllTasks, getAllUsers } from "../data/api.js"
+import { getAllTasks } from "../data/taskData.js"
 import { useEffect, useState } from "react"
 import { Loading } from "./LoadingIndicator"
 import Chart from "react-apexcharts"

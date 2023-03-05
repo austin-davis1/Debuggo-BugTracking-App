@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux"
 import Card from "../components/Card"
 import { Link } from "react-router-dom"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { deleteTask, editTask } from "../data/api.js";
 import { useState, useEffect } from "react";
 import { ActionModal } from "../components/ActionModal";
 import { BackButton } from "../components/BackButton";
