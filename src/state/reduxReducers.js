@@ -63,9 +63,28 @@ const modalType = (state = "", action) => {
     }
 }
 
+const dashboardView = (state = "", action) => {
+    switch(action.type) {
+        case "SET_VIEW":
+            return action.data
+        default:
+            return state
+    }
+}
+
+const users = (state = [], action) => {
+    switch (action.type) {
+        case "SET_USERS":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
     bugs, projects, isLoading, needsRefresh, 
-    deleteModal, selectedDelete, modalType
+    deleteModal, selectedDelete, modalType, dashboardView,
+    users
 })
 
 

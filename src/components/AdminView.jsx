@@ -180,11 +180,11 @@ export function AdminView() {
             <div className="grid grid-cols-8 gap-4 my-8">
                 <div className="flex flex-col col-span-2 row-span-2 h-auto ">
                     <div className="flex flex-col bg-white mb-4 h-1/2 rounded-lg">
-                        <span className="m-2 font-bold text-3xl">Active Projects</span>
+                        <span className="m-2 font-bold text-3xl">Total Active Projects</span>
                         <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{allProjects.filter((project) => project.status == 1).length}</h1>
                     </div>
                     <div className="flex flex-col bg-white h-1/2 rounded-lg">
-                        <span className="m-2 font-bold text-3xl">Active Tasks</span>
+                        <span className="m-2 font-bold text-3xl">Total Active Tasks</span>
                         <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{allTasks.filter((task) => task.status == 1).length}</h1>
                     </div>
                 </div>
@@ -192,7 +192,7 @@ export function AdminView() {
                     {barLoaded
                     ?
                     <>
-                        <BarGraph title={"Tasks Completed Per Week"} labels={barLabels} data={barData} colors={debuggoBlue}/>
+                        <BarGraph title={"Total Tasks Completed Per Week"} labels={barLabels} data={barData} colors={debuggoBlue}/>
                     </>
                     :
                     <>
@@ -227,7 +227,7 @@ export function AdminView() {
                     <UserSection colors={debuggoBlue}/>
                 </div>
                 <div className="col-span-4 row-span-3 bg-white rounded-lg">
-                    <CardSection cards={allTasks}/>
+                    <CardSection cards={allTasks} title={"View All Tasks"}/>
                 </div>
                 <div className="col-span-4 row-span-2 p-4 bg-white rounded-lg">
                     <div className="p-2 rounded-lg w-auto">

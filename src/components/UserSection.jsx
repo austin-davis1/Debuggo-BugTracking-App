@@ -15,7 +15,7 @@ export function UserSection({colors}) {
         async function calculateUserTasks() {
             let freqMap = {}
             let tasks = await getAllTasks()
-            for (let task of tasks) {
+            for (let task of tasks.filter((task) => task.status == 1)) {
                 for (let i = 0; i < task.users.length; i++) {
                     if (task.users[i].username in freqMap) {
                         freqMap[task.users[i].username] += 1
@@ -64,7 +64,7 @@ export function UserSection({colors}) {
             :
             <>
                 <div className="flex flex-col w-auto m-4">
-                    <h1 className="text-3xl font-bold m-2">Tasks Per User</h1>
+                    <h1 className="text-3xl font-bold m-2">Active Tasks Per User</h1>
                     {showChart 
                     ?
                     <Chart height="300" options={barOptions} series={barSeries} colors={colors} type="bar"/>

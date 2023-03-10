@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import Card from "../components/Card"
 import { getAllUsers } from "../data/api"
 import { useParams } from "react-router-dom"
+import { BackButton } from "../components/BackButton"
+import { Link } from "react-router-dom"
 
 export function UserTasks() {
     const [tasks, setTasks] = useState([])
@@ -54,25 +56,28 @@ export function UserTasks() {
 
     return (
         <>
+            <BackButton/>
             <div className="flex flex-col h-full">
                 {projects.map((project) => {
                     return (
                     <>
-                        <div className="flex bg-white justify-between border-solid border-2 border-black rounded-lg p-2 mt-6 mb-6 h-auto hover:bg-off-white cursor-pointer">
-                            <span className="flex flex-col h-full w-full bg-white">
-                                <div className="flex w-full bg-blue rounded-lg h-auto">
-                                    <h1 className="text-4xl p-2 text-white font-bold">{project.title}</h1>
-                                </div>
-                                <div className="flex flex-row items-center">
-                                    <div className="flex flex-col w-4/12 bg-white p-2 mt-2 mb-6 mr-16 cursor-pointer">
-                                        <h1 className="text-2xl font-bold">Project Description:</h1>
-                                        <div className="flex w-full text-black">
-                                            <h1 className="text-lg text-black italic">{project.description}</h1>
+                        <Link to={`/projects/view_project/${project._id}`}>
+                            <div className="flex bg-white justify-between border-solid border-2 border-black rounded-lg p-2 mt-6 mb-6 h-auto hover:bg-off-white cursor-pointer">
+                                <span className="flex flex-col h-full w-full bg-white">
+                                    <div className="flex w-full bg-blue rounded-lg h-auto">
+                                        <h1 className="text-4xl p-2 text-white font-bold">{project.title}</h1>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <div className="flex flex-col w-4/12 bg-white p-2 mt-2 mb-6 mr-16 cursor-pointer">
+                                            <h1 className="text-2xl font-bold">Project Description:</h1>
+                                            <div className="flex w-full text-black">
+                                                <h1 className="text-lg text-black italic">{project.description}</h1>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </span>
-                        </div>
+                                </span>
+                            </div>
+                        </Link>
                         <div className="flex flex-col ml-24">
                             {tasks.filter((task) => task.projectId == project._id).map((task) => {
                                 return (
