@@ -60,3 +60,10 @@ export const setDashboardView = (data) => {
         data: data
     }
 }
+
+export const setLoggedIn = (data) => {
+    return {
+        type: "SET_LOGIN",
+        data: data
+    }
+}

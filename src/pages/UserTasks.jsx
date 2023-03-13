@@ -9,6 +9,7 @@ import { Link } from "react-router-dom"
 export function UserTasks() {
     const [tasks, setTasks] = useState([])
     const [projects, setProjects]= useState([])
+    const [projectFilter, setProjectFilter] = useState(null)
     let allTasks = useSelector(state => state.bugs)
     let allProjects = useSelector(state => state.projects)
 
@@ -57,8 +58,27 @@ export function UserTasks() {
     return (
         <>
             <BackButton/>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-row mt-2 mx-2">
+                <h1 className="text-3xl">Filter: </h1>
+                <button className="border-2 text-xl mx-4 p-2 rounded-lg" onClick={() => setProjectFilter(null)}>
+                    None
+                </button>
                 {projects.map((project) => {
+                    return (
+                        <button className={"border-2 text-xl mx-4 p-2 rounded-lg " + (projectFilter == project._id ? "bg-blue" : "")} onClick={() => setProjectFilter(project._id)}>
+                            {project.title.slice(0, 15)}...
+                        </button>
+                    )
+                })}
+            </div>
+            <div className="flex flex-col h-full">
+                {projects.filter((project) => {
+                    if (projectFilter == null) {
+                        return project
+                    } else {
+                        return project._id == projectFilter
+                    }
+                }).map((project) => {
                     return (
                     <>
                         <Link to={`/projects/view_project/${project._id}`}>

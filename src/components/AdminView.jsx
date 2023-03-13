@@ -14,6 +14,9 @@ export function AdminView() {
     let allProjects = useSelector(state => state.projects)
     let loading = useSelector(state => state.isLoading)
 
+    const [tasks, setTasks] = useState([])
+    const [projects, setProjects] = useState([])
+    const [activeTasks, setActiveTasks] = useState([])
     const [percentageObject, setPercentageObject] = useState({})
     const [pieOptions, setPieOptions] = useState({labels: [], data: []});
     const [pieLoaded, setPieLoaded] = useState(false)
@@ -23,9 +26,16 @@ export function AdminView() {
     const [bar2Labels, setBar2Labels] = useState([])
     const [bar2Data, setBar2Data] = useState([])
     const [bar2Loaded, setBar2Loaded] = useState(false)
+    const [tasksLoaded, setTasksLoaded] = useState(false)
     
     const projectColors = ["#ff4560", "#feb019", "#00e396", "#008ffb", "#0068b9", "#775dd0"]
     const debuggoBlue = ["#004aad"]
+
+    useEffect(() => {
+        setTasks(allTasks)
+        setActiveTasks(allTasks.filter((task) => task.status == 1))
+        setProjects(allProjects)
+    }, [useSelector(state => state.isLoading)])
 
     useEffect(() => {
         function calculatePercentages(tags) {
@@ -37,7 +47,7 @@ export function AdminView() {
             setPercentageObject(percentageObj)
         }
 
-        function calculateTasksPerProject(tasks) {
+        function calculateTasksPerProject(tasks, projects) {
             let freqMap = {}
             for (let task of tasks) {
                 if (task.projectId in freqMap) {
@@ -48,7 +58,7 @@ export function AdminView() {
             }
     
             let labels = []
-            for (let project of allProjects) {
+            for (let project of projects) {
                 if (project._id in freqMap) {
                     labels.push(project.title)
                 }
@@ -71,7 +81,7 @@ export function AdminView() {
         let currentWeekTasks
         let currentWeekCount
 
-        function calculateTasksByDate() {
+        function calculateTasksByDate(tasks) {
             currentDate = new Date() 
             currentTime = currentDate.getTime()
 
@@ -86,7 +96,7 @@ export function AdminView() {
             let threeWeekDate = new Date(threeWeek)
 
 
-            currentWeekTasks = allTasks.filter((task) => {
+            currentWeekTasks = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > currentWeek)
@@ -95,21 +105,21 @@ export function AdminView() {
 
             currentWeekCount = currentWeekTasks.length
 
-            let lastWeekCount = allTasks.filter((task) => {
+            let lastWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > lastWeek && completeDate.getTime() < currentWeek)
                 }
             }).length
 
-            let twoWeekCount = allTasks.filter((task) => {
+            let twoWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > twoWeek && completeDate.getTime() < lastWeek)
                 }
             }).length
 
-            let threeWeekCount = allTasks.filter((task) => {
+            let threeWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > threeWeek && completeDate.getTime() < twoWeek)
@@ -131,10 +141,10 @@ export function AdminView() {
             ])
         }
     
-        function calculateTasksCompletedByProject() {
+        function calculateTasksCompletedByProject(projects) {
             let freqMap = {}
             
-            for (let project of allProjects) {
+            for (let project of projects) {
                 let currentProjectCount = currentWeekTasks.filter((task) => task.projectId == project._id).length
                 freqMap[project.title.slice(0,10)] = currentProjectCount
             }
@@ -149,12 +159,15 @@ export function AdminView() {
             setBar2Data(Object.values(freqMap))
         }
 
-        calculateTasksPerProject(allTasks)
-        calculatePercentages(allTags)
-        calculateTasksByDate()
-        calculateTasksCompletedByProject()
-        
-    }, [useSelector(state => state.isLoading)])
+        if (tasks.length > 0) {
+            calculateTasksPerProject(tasks, projects)
+            calculatePercentages(allTags)
+            calculateTasksByDate(tasks)
+            calculateTasksCompletedByProject(projects)
+            setTasksLoaded(true)
+        }
+
+    }, [tasks])
 
     useEffect(() => {
         if (pieOptions.labels.length > 0 && pieOptions.data.length > 0) {
@@ -181,11 +194,11 @@ export function AdminView() {
                 <div className="flex flex-col col-span-2 row-span-2 h-auto ">
                     <div className="flex flex-col bg-white mb-4 h-1/2 rounded-lg">
                         <span className="m-2 font-bold text-3xl">Total Active Projects</span>
-                        <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{allProjects.filter((project) => project.status == 1).length}</h1>
+                        <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{projects.filter((project) => project.status == 1).length}</h1>
                     </div>
                     <div className="flex flex-col bg-white h-1/2 rounded-lg">
                         <span className="m-2 font-bold text-3xl">Total Active Tasks</span>
-                        <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{allTasks.filter((task) => task.status == 1).length}</h1>
+                        <h1 className="flex h-full w-full justify-center items-center font-bold text-8xl text-blue">{tasks.filter((task) => task.status == 1).length}</h1>
                     </div>
                 </div>
                 <div className="col-span-2 row-span-2 h-auto bg-white rounded-lg">
@@ -226,9 +239,12 @@ export function AdminView() {
                 <div className="col-span-4 bg-white rounded-lg">
                     <UserSection colors={debuggoBlue}/>
                 </div>
+                {tasksLoaded ? 
                 <div className="col-span-4 row-span-3 bg-white rounded-lg">
-                    <CardSection cards={allTasks} title={"View All Tasks"}/>
+                    <CardSection cards={tasks} title={"View All Tasks"}/>
                 </div>
+                :
+                <></>}
                 <div className="col-span-4 row-span-2 p-4 bg-white rounded-lg">
                     <div className="p-2 rounded-lg w-auto">
                         <span className="m-2 font-bold text-3xl">Task Percentage By Tag</span>

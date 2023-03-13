@@ -17,6 +17,8 @@ export function TechView() {
 
     const [userTasks, setUserTasks] = useState([])
     const [userProjects, setUserProjects] = useState([])
+    const [activeTasks, setActiveTasks] = useState([])
+    const [activeProjects, setActiveProjects] = useState([])
     const [userTasksLoaded, setUserTasksLoaded] = useState(false)
     const [percentageObject, setPercentageObject] = useState({})
     const [pieOptions, setPieOptions] = useState({labels: [], data: []});
@@ -40,27 +42,28 @@ export function TechView() {
         let activeProjects = []
 
         function findProjects() {
-            for (let project of allProjects.filter((project) => project.status == 1)) {
+            for (let project of allProjects) {
                 if (activeTasks.find((task) => task.projectId == project._id)) {
                     activeProjects.push(project)
                 }
             }
             setUserProjects(activeProjects)
+            setActiveProjects(activeProjects.filter((project) => project.status == 1))
         }
     
         function findTasks() {
-            for (let task of allTasks.filter((task) => task.status == 1)) {
+            for (let task of allTasks) {
                 if (task.users.find(user => user.username == username)) {
                     activeTasks.push(task)
                 }
             } 
             setUserTasks(activeTasks)
-            setUserTasksLoaded(true)
+            setActiveTasks(activeTasks.filter((task) => task.status == 1))
         }
 
         findTasks()
         findProjects()
-    }, [])
+    }, [useSelector(state => state.isLoading)])
 
     useEffect(() => {
         function calculatePercentages(tags) {
@@ -72,7 +75,7 @@ export function TechView() {
             setPercentageObject(percentageObj)
         }
 
-        function calculateTasksPerProject(tasks) {
+        function calculateTasksPerProject(tasks, projects) {
             let freqMap = {}
             for (let task of tasks) {
                 if (task.projectId in freqMap) {
@@ -83,7 +86,7 @@ export function TechView() {
             }
     
             let labels = []
-            for (let project of allProjects) {
+            for (let project of projects) {
                 if (project._id in freqMap) {
                     labels.push(project.title)
                 }
@@ -106,7 +109,9 @@ export function TechView() {
         let currentWeekTasks
         let currentWeekCount
 
-        function calculateTasksByDate() {
+        function calculateTasksByDate(tasks) {
+            console.log("Tasks inside 1st bar graph calculations")
+            console.log(tasks)
             currentDate = new Date() 
             currentTime = currentDate.getTime()
 
@@ -120,31 +125,34 @@ export function TechView() {
             let twoWeekDate = new Date(twoWeek)
             let threeWeekDate = new Date(threeWeek)
 
-
-            currentWeekTasks = userTasks.filter((task) => {
+            currentWeekTasks = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
+                    console.log("Inside mf filter boi")
+                    console.log(completeDate.getTime())
+                    console.log(currentWeek)
                     return (completeDate.getTime() > currentWeek)
                 }
             })
+            console.log(currentWeekTasks)
 
             currentWeekCount = currentWeekTasks.length
 
-            let lastWeekCount = allTasks.filter((task) => {
+            let lastWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > lastWeek && completeDate.getTime() < currentWeek)
                 }
             }).length
 
-            let twoWeekCount = allTasks.filter((task) => {
+            let twoWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > twoWeek && completeDate.getTime() < lastWeek)
                 }
             }).length
 
-            let threeWeekCount = allTasks.filter((task) => {
+            let threeWeekCount = tasks.filter((task) => {
                 if (task.dateCompleted !== null) {
                     let completeDate =  new Date(task.dateCompleted)
                     return (completeDate.getTime() > threeWeek && completeDate.getTime() < twoWeek)
@@ -166,18 +174,16 @@ export function TechView() {
             ])
         }
     
-        function calculateTasksCompletedByProject() {
+        function calculateTasksCompletedByProject(projects) {
             let freqMap = {}
             
-            for (let project of allProjects) {
+            for (let project of projects) {
                 let currentProjectCount = currentWeekTasks.filter((task) => task.projectId == project._id).length
                 freqMap[project.title.slice(0,10)] = currentProjectCount
             }
 
-            console.log("BAR 2 KEYS")
             console.log(Object.keys(freqMap))
 
-            console.log("BAR 2 VALUES")
             console.log(Object.values(freqMap))
 
             setBar2Labels(Object.keys(freqMap))
@@ -185,13 +191,13 @@ export function TechView() {
         }
         
         if (userTasks.length != 0) {
-            calculateTasksPerProject(userTasks)
+            calculateTasksPerProject(userTasks, userProjects)
             calculatePercentages(allTags)
-            calculateTasksByDate()
-            calculateTasksCompletedByProject()
+            calculateTasksByDate(userTasks)
+            calculateTasksCompletedByProject(userProjects)
+            setUserTasksLoaded(true)
         }
-    }, [useSelector(state => state.isLoading), userTasks])
-
+    }, [userTasks])
 
 
     useEffect(() => {
@@ -214,7 +220,6 @@ export function TechView() {
 
     return (
         <>
-            {userTasksLoaded ?
             <div className="grid grid-cols-8 gap-4 my-8">
                 <div className="flex flex-col col-span-2 row-span-2 h-auto ">
                     <div className="flex flex-col bg-white mb-4 h-1/2 rounded-lg">
@@ -261,12 +266,19 @@ export function TechView() {
                         <Loading/>
                     </>}
                 </div>
+                {userTasksLoaded ?
                 <div className="col-span-4 row-span-3 bg-white rounded-lg">
-                    <CardSection cards={userTasks} title={"View Your Tasks"}/>
+                    <CardSection cards={activeTasks} title={"View Your Active Tasks"}/>
                 </div>
+                :
+                <></>}
+                {userTasksLoaded ?
                 <div className="col-span-4 bg-white rounded-lg">
-                    <UpcomingTasks tasks={userTasks} title={"Upcoming Task Dates"}/>
-                </div>
+                    <UpcomingTasks tasks={activeTasks} title={"Upcoming Task Dates"}/>
+                </div> 
+                : 
+                <></>}
+                
                 <div className="col-span-4 row-span-2 p-4 bg-white rounded-lg">
                     <div className="p-2 rounded-lg w-auto">
                         <span className="m-2 font-bold text-3xl">Your Task Percentage By Tag</span>
@@ -290,9 +302,6 @@ export function TechView() {
                 </div>
 
             </div>
-            :
-            <Loading/>
-            }
         </>
     )
 }

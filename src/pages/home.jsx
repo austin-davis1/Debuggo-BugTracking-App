@@ -1,6 +1,6 @@
 import Card from "../components/Card"
 import { useSelector, useDispatch } from "react-redux"
-import { setModal, setRefresh } from "../state/reduxActions"
+import { setModal, setRefresh, setData, setProjects, setLoading} from "../state/reduxActions"
 import { editTask, deleteTask } from "../data/api.js"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link, useNavigate } from "react-router-dom";
@@ -8,24 +8,13 @@ import { DashCard } from "../components/DashCard";
 import { AdminView } from "../components/AdminView";
 import { TechView } from "../components/TechnicianView";
 import { useState, useEffect } from "react";
+import { getAllTasks, getAllProjects } from "../data/api.js";
 
 export default function Home() {
-    const [view, setView] = useState()
     const [auth, setAuth] = useState("")
 
-    let user = sessionStorage.getItem("User")
-    let userObj = JSON.parse(user)
     let dashView = useSelector(state => state.dashboardView)
-
-    console.log(auth)
-
-    /*useEffect(() => {
-        if (userObj.authorizations.find((authorization) => authorization == "Admin")) {
-            setView("Admin")
-        } else {
-            setView("Technician")
-        }
-    }, [])*/
+    let view = sessionStorage.getItem("View")
 
     useEffect(() => {
         /*let userAuth = select(state => state.dashboardView)
@@ -40,7 +29,7 @@ export default function Home() {
 
     return (
         <>
-            {auth == "Admin"
+            {view == "Admin"
             ?
                 <AdminView/>
             :

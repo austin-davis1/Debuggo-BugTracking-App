@@ -1,5 +1,3 @@
-import logo from './assets/logo.svg';
-import './App.css';
 import {useEffect} from 'react'
 import {HashRouter as Router, Route, Routes, useNavigate} from "react-router-dom"
 import Home from './pages/home';
@@ -18,10 +16,11 @@ import { SiteLayout } from "./components/SiteLayout"
 import { YourTasks } from './pages/YourTasks';
 import { UserTasks } from './pages/UserTasks';
 
-
-
 function App() {
   let dispatch = useDispatch()
+
+  let user = sessionStorage.getItem("User")
+  const isLogged = useSelector(state => state.isLoggedIn)
 
   useEffect(() => {
     async function loadData() {
@@ -29,16 +28,15 @@ function App() {
       let allTasks =  await getAllTasks();
       let projects = await getAllProjects()
 
-      console.log(projects)
-
       dispatch(setData(allTasks))
       dispatch(setRefresh(false))
       dispatch(setLoading(false))
       dispatch(setProjects(projects))
     }
     
-    loadData()
-
+    if (user) {
+      loadData()
+    }
   }, [useSelector(state => state.needsRefresh)])
 
   return (

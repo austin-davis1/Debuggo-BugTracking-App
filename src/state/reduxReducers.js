@@ -81,10 +81,19 @@ const users = (state = [], action) => {
     }
 }
 
+const isLoggedIn = (state = false, action) => {
+    switch (action.type) {
+        case "SET_LOGIN":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
     bugs, projects, isLoading, needsRefresh, 
     deleteModal, selectedDelete, modalType, dashboardView,
-    users
+    users, isLoggedIn
 })
 
 
