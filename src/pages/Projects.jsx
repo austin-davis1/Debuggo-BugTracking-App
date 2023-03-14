@@ -1,8 +1,9 @@
-import { ProjectCard } from "../components/projectCard"
+import { ProjectCard } from "../components/ProjectCard"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { setRefresh, setModal, setProfilePictures, setUsers } from "../state/reduxActions"
-import { deleteProject, editProject, getAllUsers } from "../data/api"
+import { updateProject, deleteProject } from "../data/projectData.js"
+import { getAllUsers } from "../data/userData.js"
 import { getAllFiles } from "../data/storageService"
 import { useEffect, useState } from "react"
 import { Loading } from "../components/LoadingIndicator"
@@ -26,7 +27,14 @@ export function Projects() {
     async function handleEvent(id) {
         let data = projects.find(project => project._id == id)
 
-        modalType == "Delete" ? await deleteProject(id) : await editProject(id, data, 0)
+        if(modalType == "Delete"){
+            await deleteProject(id);
+        }
+        else{
+            data.status = 0;
+            await updateProject(data);
+        }
+
         dispatch(setRefresh(true))
         dispatch(setModal(false))
     }

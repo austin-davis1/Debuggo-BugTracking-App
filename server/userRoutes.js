@@ -41,6 +41,40 @@ userRoutes.route("/users/:id").get(function (request, response) {
 });
 
 /**
+ * Create / Register a new user
+ */
+userRoutes.route("/users").post(async function (request, response) {
+  let db_connect = dbo.getDb();
+
+  const takenUsername = await db_connect.collection("Users").findOne({username: request.body.username})
+  const takenEmail = await db_connect.collection("Users").findOne({email: request.body.email})
+
+  if (takenUsername || takenEmail) {
+    response.json({message: "Username or email has already been taken"})
+  }
+
+  else {
+    let hash = await bcrypt.hash(request.body.password, saltRounds)
+    console.log(hash)
+
+    let newUser = {
+      username: request.body.username,
+      name: request.body.name,
+      email: request.body.email,
+      password: hash,
+      dateJoined: request.body.dateJoined,
+      authorizations: request.body.authorizations,
+      assignedTasks: request.body.assignedTasks,
+      pictureID: request.body.pictureID
+    };
+    db_connect.collection("Users").insertOne(newUser, function (err, dbResult) {
+      if (err) throw err;
+      response.json(dbResult);
+    });
+  }
+});
+
+/**
  * Update an existing user. A successful update returns 
  * an http 204 (No Content) response which is a standard 
  * response for a .put (e.g. update) request. The client already
@@ -87,41 +121,6 @@ userRoutes.route('/users/:id').put(async function(request,response){
     }
     catch(err){
       response.status(500).send(`Error: ${err.message}`);
-    }
-});
-
-
-/**
- * Create / Register a new user
- */
- userRoutes.route("/users/register").post(async function (request, response) {
-    let db_connect = dbo.getDb();
-  
-    const takenUsername = await db_connect.collection("Users").findOne({username: request.body.username})
-    const takenEmail = await db_connect.collection("Users").findOne({email: request.body.email})
-  
-    if (takenUsername || takenEmail) {
-      response.json({message: "Username or email has already been taken"})
-    }
-  
-    else {
-      let hash = await bcrypt.hash(request.body.password, saltRounds)
-      console.log(hash)
-  
-      let newUser = {
-        username: request.body.username,
-        name: request.body.name,
-        email: request.body.email,
-        password: hash,
-        dateJoined: request.body.dateJoined,
-        authorizations: request.body.authorizations,
-        assignedTasks: request.body.assignedTasks,
-        pictureID: request.body.pictureID
-      };
-      db_connect.collection("Users").insertOne(newUser, function (err, dbResult) {
-        if (err) throw err;
-        response.json(dbResult);
-      });
     }
 });
 

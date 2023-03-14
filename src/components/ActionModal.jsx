@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { deleteTask, editTask, deleteProject, editProject, completeProject  } from "../data/api.js"
+import { updateTask, deleteTask } from "../data/taskData.js"
+import { updateProject, completeProject } from "../data/projectData.js"
 import { useDispatch } from "react-redux"
 import { setRefresh } from "../state/reduxActions"
-
 
 export function ActionModal({type, data, showModal, setShowModal}) {
     //const [showModal, setShowModal] = useState(true)
@@ -36,16 +36,22 @@ export function ActionModal({type, data, showModal, setShowModal}) {
             if (action == "DeleteTask") {
                 deleteTask(data._id)
             } else if (action == "ArchiveTask") {
-                data.completedBy = userObj.username
-                editTask(data._id, data, 0)
+                data.completedBy = userObj.username;
+                data.status = 0;
+                updateTask(data);
+                //editTask(data._id, data, 0)
             } else if (action == "DeleteProject") {
                 deleteProject(data._id)
             } else if (action == "ArchiveProject") {
-                completeProject(data._id, data)
+                completeProject(data)
             } else if (action == "RevertTask") {
-                editTask(data._id, data, 1)
+                data.status = 1;
+                updateTask(data);
+                //editTask(data._id, data, 1)
             } else if (action == "RevertProject") {
-                editProject(data._id, data, 1)
+              data.status = 1;
+              updateProject(data);  
+              //editProject(data._id, data, 1)
             }
             dispatch(setRefresh(true))
             setShowModal(false)

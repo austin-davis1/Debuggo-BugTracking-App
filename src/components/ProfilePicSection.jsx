@@ -1,4 +1,4 @@
-import { ProfilePicture } from "./profilePic"
+import { ProfilePicture } from "./ProfilePic"
 
 export function ProfilePictureSection({images}) {
     let imageCount = images.length
