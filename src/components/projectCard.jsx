@@ -17,6 +17,11 @@ export function ProjectCard({project, profilePictures, profileUsers}) {
 
     let url = `view_project/${project._id}`
 
+    console.log("PICTURES IN CARD")
+    console.log(profilePictures)
+    console.log("USERS IN CARD")
+    console.log(profileUsers)
+
     const [modalAction, setModalAction] = useState(null)
     const [modalType, setModalType] = useState({})
     const [selectedData, setSelectedData] = useState([])

@@ -72,7 +72,7 @@ const dashboardView = (state = "", action) => {
     }
 }
 
-const users = (state = [], action) => {
+const users = (state = null, action) => {
     switch (action.type) {
         case "SET_USERS":
             return action.data
@@ -90,10 +90,19 @@ const isLoggedIn = (state = false, action) => {
     }
 }
 
+const profilePictures = (state = null, action) => {
+    switch (action.type) {
+        case "SET_PROFILE_PICTURES":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
     bugs, projects, isLoading, needsRefresh, 
     deleteModal, selectedDelete, modalType, dashboardView,
-    users, isLoggedIn
+    users, isLoggedIn, profilePictures
 })
 
 

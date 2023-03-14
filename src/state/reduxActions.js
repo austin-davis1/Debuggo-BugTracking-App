@@ -67,3 +67,10 @@ export const setLoggedIn = (data) => {
         data: data
     }
 }
+
+export const setProfilePictures = (data) => {
+    return {
+        type: "SET_PROFILE_PICTURES",
+        data: data
+    }
+}

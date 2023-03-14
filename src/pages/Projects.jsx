@@ -1,16 +1,16 @@
 import { ProjectCard } from "../components/projectCard"
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { setRefresh, setModal } from "../state/reduxActions"
+import { setRefresh, setModal, setProfilePictures, setUsers } from "../state/reduxActions"
 import { deleteProject, editProject, getAllUsers } from "../data/api"
 import { getAllFiles } from "../data/storageService"
 import { useEffect, useState } from "react"
 import { Loading } from "../components/LoadingIndicator"
 
 export function Projects() {
-    const [profilePictures, setProfilePictures] = useState([])
+    const [profilePictures, setProfilePicturesState] = useState(null)
     const [imagesLoaded, setImagesLoaded] = useState(false)
-    const [users, setUsers] = useState([])
+    const [users, setUsersState] = useState(null)
     const [usersLoaded, setUsersLoaded] = useState(false)
 
     const controller = new AbortController()
@@ -31,26 +31,51 @@ export function Projects() {
         dispatch(setModal(false))
     }
 
+    let allUsers = useSelector(state => state.users)
+    let allPictures = useSelector(state => state.profilePictures)
+
     useEffect(() => {
         async function retrieveProfilePictures() {
             let allPictures = await getAllFiles(awsController)
-            setProfilePictures(allPictures)
-            setImagesLoaded(true)
+            setProfilePicturesState(allPictures)
+            dispatch(setProfilePictures(allPictures))
         }
         async function retrieveAllUsers() {
             let users = await getAllUsers(controller)
-            setUsers(users)
-            setUsersLoaded(true)
+            setUsersState(users)
+            dispatch(setUsers(users))
         }
-        retrieveProfilePictures()
-        retrieveAllUsers()
+
+        if (allUsers != null) {
+            setUsersState(allUsers)
+        } else {
+            retrieveAllUsers()
+        }
         
+        if (allPictures != null) {
+            setProfilePicturesState(allPictures)
+        } else {
+            retrieveProfilePictures()
+        }
+
         return () =>  {
             controller.abort()
             awsController.abort()
         }
 
     }, [])
+
+    useEffect(() => {
+        if (users !== null) {
+            setUsersLoaded(true)
+        }
+    }, [users])
+
+    useEffect(() => {
+        if (profilePictures !== null) {
+            setImagesLoaded(true)
+        }
+    }, [profilePictures])
 
     return (
         <div className="h-auto">

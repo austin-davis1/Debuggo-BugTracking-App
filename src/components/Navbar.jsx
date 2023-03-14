@@ -116,7 +116,7 @@ export default function Navbar() {
                     {adminSideData.map((data, index) => {
                         return (
                         <li key={index} className="flex justify-center">
-                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? "bg-blue " : " hover:bg-blue")}>
+                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? "bg-blue " : " hover:bg-blue bg-white")}>
                                 {data.icon}
                                 <span className="ml-4">{data.title}</span>
                             </NavLink>
