@@ -1,5 +1,3 @@
-import './App.css';
-
 import {useEffect} from 'react'
 import {HashRouter as Router, Route, Routes } from "react-router-dom"
 import {setRefresh, setLoading, setData, setProjects} from "./state/reduxActions"
@@ -26,13 +24,14 @@ import { UserTasks } from './pages/UserTasks';
 function App() {
   let dispatch = useDispatch()
 
+  let user = sessionStorage.getItem("User")
+  const isLogged = useSelector(state => state.isLoggedIn)
+
   useEffect(() => {
     async function loadData() {
       dispatch(setLoading(true))
       let allTasks =  await getAllTasks();
       let projects = await getAllProjects()
-
-      console.log(projects)
 
       dispatch(setData(allTasks))
       dispatch(setRefresh(false))
@@ -40,8 +39,9 @@ function App() {
       dispatch(setProjects(projects))
     }
     
-    loadData()
-
+    if (user) {
+      loadData()
+    }
   }, [useSelector(state => state.needsRefresh)])
 
   return (

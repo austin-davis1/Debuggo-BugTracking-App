@@ -6,6 +6,9 @@ export function BarGraph({labels, data, title, colors}) {
     const [series, setSeries] = useState()
     const [showChart, setShowChart] = useState(false);
 
+    console.log(`DATA IN ${title} GRAPH`)
+    console.log(data)
+
     useEffect(() => {
         let option = {}
         option.chart = {id: "basic-bar"}

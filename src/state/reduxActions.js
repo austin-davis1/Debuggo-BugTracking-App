@@ -46,3 +46,24 @@ export const setModalType = (data) => {
         data: data
     }
 }
+
+export const setUsers = (data) => {
+    return {
+        type: "SET_USERS",
+        data: data
+    }
+}
+
+export const setDashboardView = (data) => {
+    return {
+        type: "SET_VIEW",
+        data: data
+    }
+}
+
+export const setLoggedIn = (data) => {
+    return {
+        type: "SET_LOGIN",
+        data: data
+    }
+}

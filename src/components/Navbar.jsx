@@ -1,16 +1,22 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { sideData, adminSideData } from "./SidebarData";
+import { NavLink, useNavigate, Link } from "react-router-dom";
+import { sideData, adminSideData } from "./sidebardata";
+
 import Logo from "../assets/bug_tracker.png"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import picture from "../assets/no_profile_picture.svg"
 import { useState, useEffect } from "react";
 import { ProfilePicture } from "./ProfilePic";
 import { getFile } from "../data/storageService";
+import { setDashboardView, setLoggedIn } from "../state/reduxActions";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function Navbar() {
     const [photo,setPhoto] = useState()
     const [dropdown, setDropdown] = useState(false)
+    const [auth, setAuth] = useState("")
+    const [showButton, setShowButton] = useState(false)
 
+    const dispatch = useDispatch()
     let user = sessionStorage.getItem("User")
     let userObj = JSON.parse(user)
 
@@ -18,11 +24,26 @@ export default function Navbar() {
     let firstName = userObj.name.substring(0, userObj.name.indexOf(' '))
     let primaryAuthorization = userObj.authorizations[0]
 
+    let view = sessionStorage.getItem("View")
+
     let navigate = useNavigate()
 
     function handleLogout() {
         sessionStorage.removeItem("User")
+        dispatch(setLoggedIn(false))
         navigate("/")
+    }
+
+    function changeView() {
+        if (auth == "Admin") {
+            setAuth("User")
+            dispatch(setDashboardView("User"))
+            sessionStorage.setItem("View", "User")
+        } else if (auth == "User") {
+            setAuth("Admin")
+            dispatch(setDashboardView("Admin"))
+            sessionStorage.setItem("View", "Admin")
+        }
     }
 
     useEffect(() => {
@@ -37,26 +58,50 @@ export default function Navbar() {
             setPhoto(photoSrc);
         }
         loadProfilePhoto()
-    }, [])
 
-    useEffect(() => {
-        console.log(dropdown)
-    }, [dropdown])
+        if (userObj.authorizations.find((authorization) => authorization == "Admin")) {
+            setAuth("Admin")
+            setShowButton(true)
+        } else {
+            setAuth("User")
+            setShowButton(false)
+        }
+    }, [])
 
     return (
         <>
             <div className="pl-80 flex justify-between items-center bg-off-white h-16">
-                <div className="text-3xl">
+                <div className="text-3xl flex">
                     <span>Logged in as: {primaryAuthorization}</span>
+                    {showButton 
+                    ?
+                    <div className="flex flex-row text-lg ml-12">
+                        <span className="text-2xl">Current View:</span>
+                        <button className="flex border-2 ml-2 rounded-lg justify-center items-center p-2 h-8" onClick={() => changeView()}>{view}</button>
+                    </div>
+                    : 
+                        <></>
+                    }
                 </div>
                 <div className="flex flex-row justify-between rounded-lg bg-white m-2">
-                    <div className="flex flex-row border-2 cursor-pointer" onClick={() => setDropdown(!dropdown)}>
-                        <span className="p-2 mr-2 flex items-center">{firstName}</span>
-                        <div className="flex w-12 mr-12">
+                    <div className="flex flex-row border-2 rounded-lg cursor-pointer" onClick={() => setDropdown(!dropdown)}>
+                        <div className="flex w-12">
                             <ProfilePicture image={photo}/>
                         </div>
+                        <span className="p-2 flex items-center">{firstName}</span>
+                        <div className="flex justify-center items-center">
+                            <ArrowDropDownIcon/>
+                        </div>
                     </div>
-                    <span onClick={() => handleLogout()} className = "p-2 flex items-center rounded-lg border-solid border-2 cursor-pointer">Logout</span>
+                    {dropdown
+                    ?
+                    <div className="flex flex-col w-48 rounded-lg border-2 absolute right-4 z-10 mt-12 text-xl">
+                        <Link to="/user_profile" onClick={() => setDropdown(false)} className="flex items-center bg-white rounded-t-lg p-1 border-b-2 hover:bg-off-white h-8 cursor-pointer">My Profile</Link>
+                        <span onClick={() => handleLogout()} className="flex items-center bg-white hover:bg-off-white h-8 rounded-b-lg p-1 cursor-pointer">Logout</span>
+                    </div>
+                    :
+                    <></>
+                    }
                 </div>
             </div>
             <div className="h-screen flex flex-col overflow-y-auto bg-blue-gray w-72 fixed top-0">
@@ -72,7 +117,7 @@ export default function Navbar() {
                     {adminSideData.map((data, index) => {
                         return (
                         <li key={index} className="flex justify-center">
-                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? " bg-blue " : " hover:bg-blue")}>
+                            <NavLink to={data.path} className={({isActive}) => "w-72 m-4 bg-white mt-2 mb-2 p-3 flex justify-start align-center rounded-lg " + (isActive ? "bg-blue " : " hover:bg-blue")}>
                                 {data.icon}
                                 <span className="ml-4">{data.title}</span>
                             </NavLink>

@@ -3,6 +3,7 @@ import { getUserById, verifyUser, createUser } from '../data/userData.js'
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import Logo from "../assets/bug_tracker.png"
+import { setDashboardView, setLoggedIn } from "../state/reduxActions.js"
 
 export function Landing() {
 
@@ -46,6 +47,11 @@ export function Landing() {
                 let user = response.userObj
                 //dispatch(setUser(user))
                 sessionStorage.setItem("User", JSON.stringify(user))
+                sessionStorage.setItem("View", (user.authorizations[0]).toString())
+                //sessionStorage.setItem("CurrentAuthorization", "Admin")
+                dispatch(setDashboardView(user.authorizations[0]))
+                
+                dispatch(setLoggedIn(true))
                 navigate("/dashboard")
             } else {
                 alert("The information was not correct")

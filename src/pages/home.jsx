@@ -1,39 +1,35 @@
 import Card from "../components/Card"
 import { useSelector, useDispatch } from "react-redux"
-import { setModal, setRefresh } from "../state/reduxActions"
+import { setModal, setRefresh, setData, setProjects, setLoading} from "../state/reduxActions"
+import { editTask, deleteTask } from "../data/api.js"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link, useNavigate } from "react-router-dom";
 import { DashCard } from "../components/DashCard";
 import { AdminView } from "../components/AdminView";
 import { TechView } from "../components/TechnicianView";
+import { useState, useEffect } from "react";
+import { getAllTasks, getAllProjects } from "../data/api.js";
 
 export default function Home() {
-    let user = sessionStorage.getItem("User")
+    const [auth, setAuth] = useState("")
 
-    let bugs = useSelector(state => state.bugs)
-    let projects = useSelector(state => state.projects)
-    let activeProjects = useSelector(state => state.projects.filter(project => project.status == 1))
-    let completedProjects = useSelector(state => state.projects.filter(project => project.status == 0))
-    let activeBugs = useSelector(state => state.bugs.filter(bug => bug.status == 1))
-    let completedBugs = useSelector(state => state.bugs.filter(bug => bug.status == 0))
+    let dashView = useSelector(state => state.dashboardView)
+    let view = sessionStorage.getItem("View")
 
-    let urgentBugs = useSelector(state => state.bugs.filter(bug => bug.tags.find(tag => tag == "Urgent")))
-
-    let dispatch = useDispatch()
-    let navigate = useNavigate()
-
-    let bugCount = bugs.length
-    let projectCount = projects.length
-    let activeProjectCount = activeProjects.length
-    let completedProjectCount = completedProjects.length
-    let activeBugCount = activeBugs.length
-    let completedBugCount = completedBugs.length
-
-    let userObj = JSON.parse(user)
+    useEffect(() => {
+        /*let userAuth = select(state => state.dashboardView)
+        setAuth(userAuth)*/
+        if (dashView == "Admin") {
+            setAuth("Admin")
+        } else {
+            setAuth("User")
+        }
+        console.log("REDUX STATE HAS CHANGED IN HOME :D")
+    }, [useSelector(state => state.dashboardView)])
 
     return (
         <>
-            {userObj.authorizations.find((authorization) => authorization == "Admin")
+            {view == "Admin"
             ?
                 <AdminView/>
             :
