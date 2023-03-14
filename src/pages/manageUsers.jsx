@@ -1,6 +1,6 @@
-import { getAllUsers } from "../data/api.js"
+import { getAllUsers } from '../data/userData.js'
 import { useEffect, useState } from "react"
-import { UserTag } from "../components/userTag"
+import { UserTag } from "../components/UserTag"
 import { Link } from "react-router-dom"
 
 export function ManageUsers() {

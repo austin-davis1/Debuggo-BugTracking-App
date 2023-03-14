@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { uploadFile, getFile, deleteFile } from "../data/storageService.js"
-import { updateUser } from "../data/api.js"
+import { updateUser } from "../data/userData.js"
 import picture from "../assets/no_profile_picture.svg"
 
-import { ProfilePicture } from "../components/profilePic.jsx"
+import { ProfilePicture } from "../components/ProfilePic.jsx"
 
 export function UserProfile() {
 
@@ -77,7 +77,7 @@ export function UserProfile() {
                 //After the file has been successfully uploaded, update the
                 //user object to reflect the change. 
                 userObj.pictureID = newFileName;
-                await updateUser(userObj._id, userObj);
+                await updateUser(userObj);
                 sessionStorage.setItem("User", JSON.stringify(userObj))
                 
             } catch (error) {

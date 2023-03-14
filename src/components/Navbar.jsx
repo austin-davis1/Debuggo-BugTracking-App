@@ -1,10 +1,11 @@
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { sideData, adminSideData } from "./sidebardata";
+
 import Logo from "../assets/bug_tracker.png"
 import { useSelector, useDispatch } from "react-redux";
 import picture from "../assets/no_profile_picture.svg"
 import { useState, useEffect } from "react";
-import { ProfilePicture } from "./profilePic";
+import { ProfilePicture } from "./ProfilePic";
 import { getFile } from "../data/storageService";
 import { setDashboardView, setLoggedIn } from "../state/reduxActions";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';

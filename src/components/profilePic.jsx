@@ -1,5 +1,3 @@
-
-
 export function ProfilePicture({image}) {
     return (
         <>
